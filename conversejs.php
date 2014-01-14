@@ -3,7 +3,7 @@
 Plugin Name: ConverseJS
 Plugin URI: https://conversejs.org/
 Description: This plugin add the javascript code for Converse.js a Jabber/XMPP chat for your WordPress.
-Version: 1.0.2
+Version: 1.1
 Author: camaran
 Author URI: http://www.chatme.im
 */
@@ -38,13 +38,9 @@ function my_plugin_init() {
 }
 
 function get_converse_head() {
-	if(get_option('conversion_url') == '')
-		$url = "https://converse.chatme.im";
-	else
-		$url = get_option('conversion_url');
 	
-	echo "\n".'<link rel="stylesheet" type="text/css" href="'.$url.'/converse.css">';
-	echo "\n".'<script type="text/javascript" src="'.$url.'/builds/converse.min.js"></script>';
+	echo "\n".'<link rel="stylesheet" type="text/css" href="'.plugins_url( '/core/converse.css' , __FILE__ ).'">';
+	echo "\n".'<script type="text/javascript" src="'.plugins_url( '/core/builds/converse.min.js' , __FILE__ ).'"></script>';
 }
 
 function get_converse_footer() {
@@ -83,7 +79,6 @@ function converse_menu() {
 function register_converse_mysettings() {
 	//register our settings
 	register_setting('converse_options_list', 'language');
-	register_setting('converse_options_list', 'conversion_url');
 	register_setting('converse_options_list', 'bosh');
 }
 
@@ -99,13 +94,6 @@ function converse_options() {
 <form method="post" action="options.php">
     <?php settings_fields( 'converse_options_list' ); ?>
     <table class="form-table">
-
-        <tr valign="top">
-        <th scope="row"><?php _e("Converse Installation URL", 'conversejs-lng'); ?></th>
-        <td>
-        <input id="conversion_url" name="conversion_url" type="url" placeholder="<?php _e("Conversion JS URL", 'conversejs-lng'); ?>" value="<?php echo get_option('conversion_url'); ?>">/<br/><em><?php _e("We suggest https://converse.chatme.im", 'conversejs-lng'); ?></em>
-        </td>
-        </tr>  
     
         <tr valign="top">
         <th scope="row"><?php _e("Bosh Server", 'conversejs-lng'); ?></th>

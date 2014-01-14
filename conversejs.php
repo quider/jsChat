@@ -3,7 +3,7 @@
 Plugin Name: ConverseJS
 Plugin URI: https://conversejs.org/
 Description: This plugin add the javascript code for Converse.js a Jabber/XMPP chat for your WordPress.
-Version: 1.0.1
+Version: 1.0.2
 Author: camaran
 Author URI: http://www.chatme.im
 */
@@ -25,9 +25,6 @@ Author URI: http://www.chatme.im
     Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-//Custom Variables (YOU NOT EDIT)
-$GLOBALS['converse_url'] = "https://converse.chatme.im"; 	//converse installation
-
 add_action('wp_head', 'get_converse_head');
 add_action('wp_footer', 'get_converse_footer');
 add_action('admin_menu', 'converse_menu');
@@ -41,9 +38,13 @@ function my_plugin_init() {
 }
 
 function get_converse_head() {
+	if(get_option('conversion_url') == '')
+		$url = "https://converse.chatme.im";
+	else
+		$url = get_option('conversion_url');
 	
-	echo "\n".'<link rel="stylesheet" type="text/css" href="'.$GLOBALS['converse_url'].'/converse.css">';
-	echo "\n".'<script type="text/javascript" src="'.$GLOBALS['converse_url'].'/builds/converse.min.js"></script>';
+	echo "\n".'<link rel="stylesheet" type="text/css" href="'.$url.'/converse.css">';
+	echo "\n".'<script type="text/javascript" src="'.$url.'/builds/converse.min.js"></script>';
 }
 
 function get_converse_footer() {
@@ -82,6 +83,7 @@ function converse_menu() {
 function register_converse_mysettings() {
 	//register our settings
 	register_setting('converse_options_list', 'language');
+	register_setting('converse_options_list', 'conversion_url');
 	register_setting('converse_options_list', 'bosh');
 }
 
@@ -92,17 +94,23 @@ function converse_options() {
  ?>
  <div class="wrap">
 <h2>ConverseJS</h2>
-<p><?php _e("For more information visit <a href='http://www.chatme.im' target='_blank'>www.chatme.im</a>", 'conversejs-lng'); ?> - <a href="https://webchat.chatme.im/?r=support" target="_blank">Support Chat Room</a></p>
-<p><?php _e("For subscribe your account visit <a href='http://api.chatme.im/register_web' target='_blank'>http://api.chatme.im/register_web</a>", 'conversejs-lng'); ?></p> 
+<p><?php _e("For more information visit <a href='http://www.chatme.im' target='_blank'>www.chatme.im</a>", 'conversejs-lng'); ?> - <a href="https://webchat.chatme.im/?r=support" target="_blank">Support Chat Room</a> - <a href="https://conversejs.org/" trget="_blank">ConverseJS.org</a></p> 
 
 <form method="post" action="options.php">
     <?php settings_fields( 'converse_options_list' ); ?>
     <table class="form-table">
+
+        <tr valign="top">
+        <th scope="row"><?php _e("Converse Installation URL", 'conversejs-lng'); ?></th>
+        <td>
+        <input id="conversion_url" name="conversion_url" type="url" placeholder="<?php _e("Conversion JS URL", 'conversejs-lng'); ?>" value="<?php echo get_option('conversion_url'); ?>">/<br/><em><?php _e("We suggest https://converse.chatme.im", 'conversejs-lng'); ?></em>
+        </td>
+        </tr>  
     
         <tr valign="top">
         <th scope="row"><?php _e("Bosh Server", 'conversejs-lng'); ?></th>
         <td>
-        <input id="bosh" name="bosh" type="url" placeholder="bosh service" value="<?php echo get_option('bosh'); ?>"><br/><em><?php _e("We suggest http://api.chatme.im/http-bind/", 'conversejs-lng'); ?></em>
+        <input id="bosh" name="bosh" type="url" placeholder="<?php _e("bosh service", 'conversejs-lng'); ?>" value="<?php echo get_option('bosh'); ?>"><br/><em><?php _e("We suggest http://api.chatme.im/http-bind/", 'conversejs-lng'); ?></em>
         </td>
         </tr>    
     

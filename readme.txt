@@ -4,7 +4,7 @@ Donate link: http://www.chatme.im
 Tags: chat, jabber, converse, mini, xmpp
 Requires at least: 3.8
 Tested up to: 3.8
-Stable tag: 1.0.1
+Stable tag: 1.0.2
 
 This plugin add the javascript code for Converse.js a Jabber/XMPP chat for your WordPress.
 
@@ -46,6 +46,10 @@ This section describes how to install the plugin and get it working.
 
 == Changelog ==
 
+= 1.0.2 =
+* Bug Fix
+* Support for custom installation of converseJS
+
 = 1.0.1 =
 * Bug Fix
 
@@ -53,6 +57,10 @@ This section describes how to install the plugin and get it working.
 * First stable version
 
 == Upgrade Notice ==
+
+= 1.0.2 =
+* Bug Fix
+* Support for custom installation of converseJS
 
 = 1.0.1 =
 * Bug Fix

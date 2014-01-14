@@ -2,8 +2,8 @@
 /*
 Plugin Name: ConverseJS
 Plugin URI: https://conversejs.org/
-Description: This plugin add the javascript code for Chatme.im Mini Messenger a Jabber/XMPP chat for your WordPress.
-Version: 1.0
+Description: This plugin add the javascript code for Converse.js a Jabber/XMPP chat for your WordPress.
+Version: 1.0.1
 Author: camaran
 Author URI: http://www.chatme.im
 */
@@ -28,26 +28,25 @@ Author URI: http://www.chatme.im
 //Custom Variables (YOU NOT EDIT)
 $GLOBALS['converse_url'] = "https://converse.chatme.im"; 	//converse installation
 
-add_action('wp_head', 'get_chatme_mini_head');
-add_action('wp_footer', 'get_chatme_mini_footer');
-add_action('admin_menu', 'chatme_mini_menu');
-add_action('admin_init', 'register_mysettings' );
+add_action('wp_head', 'get_converse_head');
+add_action('wp_footer', 'get_converse_footer');
+add_action('admin_menu', 'converse_menu');
+add_action('admin_init', 'register_converse_mysettings' );
 
 add_action( 'init', 'my_plugin_init' );
 
 function my_plugin_init() {
       $plugin_dir = basename(dirname(__FILE__));
-      load_plugin_textdomain( 'chatmeim-mini-messenger', null, $plugin_dir . '/languages/' );
+      load_plugin_textdomain( 'conversejs-lng', null, $plugin_dir . '/languages/' );
 }
 
-function get_chatme_mini_head() {
-		
-	$lng = get_option('language');
+function get_converse_head() {
+	
 	echo "\n".'<link rel="stylesheet" type="text/css" href="'.$GLOBALS['converse_url'].'/converse.css">';
 	echo "\n".'<script type="text/javascript" src="'.$GLOBALS['converse_url'].'/builds/converse.min.js"></script>';
 }
 
-function get_chatme_mini_footer() {
+function get_converse_footer() {
 
 	if(get_option('language') == '')
 		$lng = "en";
@@ -76,39 +75,39 @@ echo "\n".'<!-- Messenger -->
 	<div id="conversejs"></div>';
 }
 
-function chatme_mini_menu() {
-  add_options_page('ConverseJS', 'ConverseJS', 'manage_options', 'my-unique-identifier', 'mini_jappix_options');
+function converse_menu() {
+  add_options_page('ConverseJS', 'ConverseJS', 'manage_options', 'converse-identifier', 'converse_options');
 }
 
-function register_mysettings() {
+function register_converse_mysettings() {
 	//register our settings
-	register_setting('mini_chat_msn', 'language');
-	register_setting('mini_chat_msn', 'join_groupchats');
+	register_setting('converse_options_list', 'language');
+	register_setting('converse_options_list', 'bosh');
 }
 
-function mini_jappix_options() {
+function converse_options() {
   if (!current_user_can('manage_options'))  {
-    wp_die( __('You do not have sufficient permissions to access this page.', 'chatmeim-mini-messenger') );
+    wp_die( __('You do not have sufficient permissions to access this page.', 'conversejs-lng') );
   }
  ?>
  <div class="wrap">
-<h2>Chatme.im Mini Messenger</h2>
-<p><?php _e("For more information visit <a href='http://www.chatme.im' target='_blank'>www.chatme.im</a>", 'chatmeim-mini-messenger'); ?> - <a href="https://webchat.chatme.im/?r=support" target="_blank">Support Chat Room</a></p>
-<p><?php _e("For subscribe your account visit <a href='http://api.chatme.im/register_web' target='_blank'>http://api.chatme.im/register_web</a>", 'chatmini'); ?></p> 
+<h2>ConverseJS</h2>
+<p><?php _e("For more information visit <a href='http://www.chatme.im' target='_blank'>www.chatme.im</a>", 'conversejs-lng'); ?> - <a href="https://webchat.chatme.im/?r=support" target="_blank">Support Chat Room</a></p>
+<p><?php _e("For subscribe your account visit <a href='http://api.chatme.im/register_web' target='_blank'>http://api.chatme.im/register_web</a>", 'conversejs-lng'); ?></p> 
 
 <form method="post" action="options.php">
-    <?php settings_fields( 'mini_chat_msn' ); ?>
+    <?php settings_fields( 'converse_options_list' ); ?>
     <table class="form-table">
     
         <tr valign="top">
-        <th scope="row"><?php _e("Bosh Server", 'chatmeim-mini-messenger'); ?></th>
+        <th scope="row"><?php _e("Bosh Server", 'conversejs-lng'); ?></th>
         <td>
-        <input id="bosh" name="bosh" type="url" placeholder="bosh service" value="<?php echo get_option('language'); ?>">
+        <input id="bosh" name="bosh" type="url" placeholder="bosh service" value="<?php echo get_option('bosh'); ?>"><br/><em><?php _e("We suggest http://api.chatme.im/http-bind/", 'conversejs-lng'); ?></em>
         </td>
         </tr>    
     
         <tr valign="top">
-        <th scope="row"><?php _e("Mini Jappix language", 'chatmeim-mini-messenger'); ?></th>
+        <th scope="row"><?php _e("Converse language", 'conversejs-lng'); ?></th>
         <td>
         <select id="language" name="language">
         <option value="de" <?php selected('de', get_option('language')); ?>>Deutsch</option>
@@ -126,7 +125,7 @@ function mini_jappix_options() {
     </table>
     
     <p class="submit">
-    <input type="submit" class="button-primary" value="<?php _e('Save Changes', 'chatmeim-mini-messenger') ?>" />
+    <input type="submit" class="button-primary" value="<?php _e('Save Changes', 'conversejs-lng') ?>" />
     </p>
     <p>For Ever request you can use our <a href="http://chatme.im/forums" target="_blank">forum</a></p>
 

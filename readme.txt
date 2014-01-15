@@ -8,10 +8,6 @@ Stable tag: 1.1.1
 
 Converse.js is an open source webchat client, that runs in the browser and can be integrated into any website.
 
-It's similar to Facebook chat, but also supports multi-user chatrooms.
-
-Converse.js can connect to any accessible XMPP/Jabber server, either from a public provider such as jabber.org, or to one you have set up yourself.
-
 == Description ==
 
 Converse.js is an open source webchat client, that runs in the browser and can be integrated into any website.

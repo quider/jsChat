@@ -3,7 +3,7 @@
 Plugin Name: ConverseJS
 Plugin URI: https://conversejs.org/
 Description: This plugin add the javascript code for Converse.js a Jabber/XMPP chat for your WordPress.
-Version: 1.1
+Version: 1.1.1
 Author: camaran
 Author URI: http://www.chatme.im
 */

@@ -45,7 +45,8 @@
                 if (list) {
                     for (i=0; i<list.length; i++) {
                         var prot = list[i].indexOf('http://') === 0 || list[i].indexOf('https://') === 0 ? '' : 'http://';
-                        x = x.replace(list[i], "<a target='_blank' href='" + prot + list[i] + "'>"+ list[i] + "</a>" );
+                        var escaped_url = encodeURI(decodeURI(list[i])).replace(/[!'()]/g, escape).replace(/\*/g, "%2A");
+                        x = x.replace(list[i], "<a target='_blank' href='" + prot + escaped_url + "'>"+ list[i] + "</a>" );
                     }
                 }
                 $(obj).html(x);
@@ -777,7 +778,7 @@
                 }
             },
 
-            messageReceived: function (message) {
+            receiveMessage: function (message) {
                 var $body = $(message).children('body');
                 var text = ($body.length > 0 ? $body.text() : undefined);
                 if ((!text) || (!converse.allow_otr)) {
@@ -925,10 +926,10 @@
                 this.model.on('showHelpMessages', this.showHelpMessages, this);
                 this.model.on('sendMessageStanza', this.sendMessageStanza, this);
                 this.model.on('showSentOTRMessage', function (text) {
-                    this.showOTRMessage(text, 'me');
+                    this.showMessage({'message': text, 'sender': 'me'});
                 }, this);
                 this.model.on('showReceivedOTRMessage', function (text) {
-                    this.showOTRMessage(text, 'them');
+                    this.showMessage({'message': text, 'sender': 'them'});
                 }, this);
                 this.updateVCard();
                 this.$el.appendTo(converse.chatboxesview.$el);
@@ -956,77 +957,31 @@
                 this.scrollDown();
             },
 
-            renderEmoticons: function (text) {
-                if (converse.show_emoticons) {
-                    text = text.replace(/:\)/g, '<span class="emoticon icon-smiley"></span>');
-                    text = text.replace(/:\-\)/g, '<span class="emoticon icon-smiley"></span>');
-                    text = text.replace(/;\)/g, '<span class="emoticon icon-wink"></span>');
-                    text = text.replace(/;\-\)/g, '<span class="emoticon icon-wink"></span>');
-                    text = text.replace(/:D/g, '<span class="emoticon icon-grin"></span>');
-                    text = text.replace(/:\-D/g, '<span class="emoticon icon-grin"></span>');
-                    text = text.replace(/:P/g, '<span class="emoticon icon-tongue"></span>');
-                    text = text.replace(/:\-P/g, '<span class="emoticon icon-tongue"></span>');
-                    text = text.replace(/:p/g, '<span class="emoticon icon-tongue"></span>');
-                    text = text.replace(/:\-p/g, '<span class="emoticon icon-tongue"></span>');
-                    text = text.replace(/8\)/g, '<span class="emoticon icon-cool"></span>');
-                    text = text.replace(/>:\)/g, '<span class="emoticon icon-evil"></span>');
-                    text = text.replace(/:S/g, '<span class="emoticon icon-confused"></span>');
-                    text = text.replace(/:\\/g, '<span class="emoticon icon-wondering"></span>');
-                    text = text.replace(/:\//g, '<span class="emoticon icon-wondering"></span>');
-                    text = text.replace(/>:\(/g, '<span class="emoticon icon-angry"></span>');
-                    text = text.replace(/:\(/g, '<span class="emoticon icon-sad"></span>');
-                    text = text.replace(/:\-\(/g, '<span class="emoticon icon-sad"></span>');
-                    text = text.replace(/:O/g, '<span class="emoticon icon-shocked"></span>');
-                    text = text.replace(/:\-O/g, '<span class="emoticon icon-shocked"></span>');
-                    text = text.replace(/\=\-O/g, '<span class="emoticon icon-shocked"></span>');
-                    text = text.replace(/\(\^.\^\)b/g, '<span class="emoticon icon-thumbs-up"></span>');
-                    text = text.replace(/<3/g, '<span class="emoticon icon-heart"></span>');
-                }
-                return text;
-            },
-
-            showMessage: function ($el, msg_dict) {
-                var this_date = converse.parseISO8601(msg_dict.time),
+            showMessage: function (msg_dict) {
+                var $el = this.$el.find('.chat-content'),
+                    msg_date = msg_dict.time ? converse.parseISO8601(msg_dict.time) : new Date(),
                     text = msg_dict.message,
                     match = text.match(/^\/(.*?)(?: (.*))?$/),
-                    sender = msg_dict.sender,
+                    fullname = msg_dict.fullname || this.model.get('fullname'),
                     template, username;
 
                 if ((match) && (match[1] === 'me')) {
                     text = text.replace(/^\/me/, '');
                     template = this.action_template;
-                    username = msg_dict.fullname;
+                    username = fullname;
                 } else  {
                     template = this.message_template;
-                    username = sender === 'me' && __('me') || msg_dict.fullname;
+                    username = msg_dict.sender === 'me' && __('me') || fullname;
                 }
                 $el.find('div.chat-event').remove();
                 var message = template({
-                    'sender': sender,
-                    'time': this_date.toTimeString().substring(0,5),
+                    'sender': msg_dict.sender,
+                    'time': msg_date.toTimeString().substring(0,5),
                     'username': username,
                     'message': '',
                     'extra_classes': msg_dict.delayed && 'delayed' || ''
                 });
                 $el.append($(message).children('.chat-message-content').first().text(text).addHyperlinks().addEmoticons().parent());
-                return this.scrollDown();
-            },
-
-            showOTRMessage:  function (text, sender) {
-                /* "Off-the-record" messages are encrypted and not stored at all,
-                 * so we don't have a backbone converse.Message object to work with.
-                 */
-                var username = sender === 'me' && sender || this.model.get('fullname');
-                var $el = this.$el.find('.chat-content');
-                $el.find('div.chat-event').remove();
-                $el.append(
-                    this.message_template({
-                        'sender': sender,
-                        'time': (new Date()).toTimeString().substring(0,5),
-                        'message': text,
-                        'username': username,
-                        'extra_classes': ''
-                    }));
                 return this.scrollDown();
             },
 
@@ -1048,7 +1003,6 @@
                 var time = message.get('time'),
                     times = this.model.messages.pluck('time'),
                     this_date = converse.parseISO8601(time),
-                    $chat_content = this.$el.find('.chat-content'),
                     previous_message, idx, prev_date, isodate, text, match;
 
                 // If this message is on a different day than the one received
@@ -1061,7 +1015,7 @@
                     isodate.setUTCHours(0,0,0,0);
                     isodate = converse.toISOString(isodate);
                     if (this.isDifferentDay(prev_date, this_date)) {
-                        $chat_content.append(this.new_day_template({
+                        this.$el.find('.chat-content').append(this.new_day_template({
                             isodate: isodate,
                             datestring: this_date.toString().substring(0,15)
                         }));
@@ -1071,7 +1025,7 @@
                     this.showStatusNotification(message.get('fullname')+' '+'is typing');
                     return;
                 } else {
-                    this.showMessage($chat_content, _.clone(message.attributes));
+                    this.showMessage(_.clone(message.attributes));
                 }
                 if ((message.get('sender') != 'me') && (converse.windowState == 'blur')) {
                     converse.incrementMsgCounter();
@@ -1125,9 +1079,9 @@
                             ];
                         this.showHelpMessages(msgs);
                         return;
-                    } else if ((converse.allow_otr) || (match[1] === "endotr")) {
+                    } else if ((converse.allow_otr) && (match[1] === "endotr")) {
                         return this.endOTR();
-                    } else if ((converse.allow_otr) || (match[1] === "otr")) {
+                    } else if ((converse.allow_otr) && (match[1] === "otr")) {
                         return this.model.initiateOTR();
                     }
                 }
@@ -2411,7 +2365,7 @@
                 }
                 if (!body) { return true; }
                 var display_sender = sender === this.model.get('nick') && 'me' || 'room';
-                this.showMessage($chat_content, {
+                this.showMessage({
                     'message': body,
                     'sender': display_sender,
                     'fullname': sender,
@@ -2461,12 +2415,9 @@
             model: converse.ChatBox,
 
             registerMessageHandler: function () {
-                // TODO: Make this method global to converse, trigger an event
-                // and let messageReceived be called via a handler for that
-                // event.
                 converse.connection.addHandler(
                     $.proxy(function (message) {
-                        this.messageReceived(message);
+                        this.onMessage(message);
                         return true;
                     }, this), null, 'message', 'chat');
             },
@@ -2497,7 +2448,7 @@
                 });
             },
 
-            messageReceived: function (message) {
+            onMessage: function (message) {
                 var buddy_jid, $message = $(message),
                     message_from = $message.attr('from');
                 if (message_from == converse.connection.jid) {
@@ -2532,7 +2483,6 @@
                 if (!chatbox) {
                     var fullname = roster_item.get('fullname');
                     fullname = _.isEmpty(fullname)? buddy_jid: fullname;
-
                     chatbox = this.create({
                         'id': buddy_jid,
                         'jid': buddy_jid,
@@ -2542,7 +2492,7 @@
                         'url': roster_item.get('url')
                     });
                 }
-                chatbox.messageReceived(message);
+                chatbox.receiveMessage(message);
                 converse.roster.addResource(buddy_jid, resource);
                 converse.emit('onMessage', message);
                 return true;
@@ -2572,7 +2522,7 @@
                         view.model = item;
                         view.initialize();
                         if (item.get('id') !== 'controlbox') {
-                            // FIXME: Why is it necessary to again append chatboxes?
+                            // XXX: Why is it necessary to again append chatboxes?
                             view.$el.appendTo(this.$el);
                         }
                     }

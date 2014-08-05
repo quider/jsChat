@@ -1,9 +1,9 @@
-<?php
+﻿<?php
 /*
 Plugin Name: ConverseJS
 Plugin URI: https://conversejs.org/
 Description: This plugin add the javascript code for Converse.js a Jabber/XMPP chat for your WordPress.
-Version: 1.4.2
+Version: 1.5.0
 Author: camaran
 Author URI: http://www.chatme.im
 */
@@ -30,15 +30,7 @@ function get_converse_footer() {
 
 	$lng = (get_option('language') == '') ? "en" : get_option('language');
 	$bsh = (!filter_var(get_option('bosh'),FILTER_VALIDATE_URL)) ? "https://api.chatme.im/http-bind/" : get_option('bosh');
-
-	//if(get_option('language') == '')
-	//	$lng = "en";
-	//else
-	//	$lng = get_option('language');
-	//if(get_option('bosh') == '')
-	//	$bsh = "https://api.chatme.im/http-bind/";
-	//else
-	//	$bsh = get_option('bosh');		
+		
 
 echo "\n".'<!-- Messenger -->
 	<script>
@@ -54,8 +46,7 @@ echo "\n".'<!-- Messenger -->
 		        xhr_user_search: false
 		    });
 		});
-	</script>
-	<div id="conversejs"></div>';
+	</script>';
 }
 
 function converse_menu() {

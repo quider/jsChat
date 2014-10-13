@@ -30,9 +30,9 @@ function get_converse_footer() {
 
 	$lng = (get_option('language') == '') ? "en" : get_option('language');
 	$bsh = (!filter_var(get_option('bosh'),FILTER_VALIDATE_URL)) ? "https://api.chatme.im/http-bind/" : get_option('bosh');
-	$call = (get_option('call')) ?: false;
-	$carbons = (get_option('carbons')) ?: false;
-	$foward = (get_option('foward')) ?: false;
+	$call = (get_option('call')) ?: 'false';
+	$carbons = (get_option('carbons')) ?: 'false';
+	$foward = (get_option('foward')) ?: 'false';
 		
 
 echo "\n".'<!-- Messenger -->

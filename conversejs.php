@@ -3,7 +3,7 @@
 Plugin Name: ConverseJS
 Plugin URI: https://conversejs.org/
 Description: This plugin add the javascript code for Converse.js a Jabber/XMPP chat for your WordPress.
-Version: 1.5.6
+Version: 1.5.7
 Author: camaran
 Author URI: http://www.chatme.im
 */
@@ -29,7 +29,7 @@ function get_converse_head() {
 function get_converse_footer() {
 
 	$lng = (get_option('language') == '') ? "en" : get_option('language');
-	$bsh = (!filter_var(get_option('bosh'),FILTER_VALIDATE_URL)) ? "https://api.chatme.im/http-bind/" : get_option('bosh');
+	$bsh = (!filter_var(get_option('bosh'),FILTER_VALIDATE_URL)) ? "https://webchat.chatme.im/http-bind/" : get_option('bosh');
 	$call = (get_option('call')) ?: 'false';
 	$carbons = (get_option('carbons')) ?: 'false';
 	$foward = (get_option('foward')) ?: 'false';
@@ -84,7 +84,7 @@ function converse_options() {
         <tr valign="top">
         <th scope="row"><?php _e("Bosh Server", 'conversejs-lng'); ?></th>
         <td>
-        <input id="bosh" name="bosh" type="url" placeholder="<?php _e("bosh service", 'conversejs-lng'); ?>" value="<?php echo get_option('bosh'); ?>"><br/><em><?php _e("We suggest http://api.chatme.im/http-bind/", 'conversejs-lng'); ?></em>
+        <input id="bosh" name="bosh" type="url" placeholder="<?php _e("bosh service", 'conversejs-lng'); ?>" value="<?php echo get_option('bosh'); ?>"><br/><em><?php _e("We suggest http://webchat.chatme.im/http-bind/", 'conversejs-lng'); ?></em>
         </td>
         </tr>  
 

@@ -4,7 +4,7 @@ Donate link: http://www.chatme.im
 Tags: chat, converse, xmpp, jabber, chatme, irc
 Requires at least: 3.8
 Tested up to: 4.1
-Stable tag: 2.0.1
+Stable tag: 2.0.2
 
 Converse.js is an open source webchat client, that runs in the browser and can be integrated into any website.
 
@@ -65,6 +65,9 @@ This section describes how to install the plugin and get it working.
 2. The chat admin panel
 
 == Changelog ==
+
+= 2.0.2 =
+* Can Manage show_controlbox_by_default for closed chat panel (Chat panel openend by default)
 
 = 2.0.1 =
 * ConverseJS [0.9.0](https://github.com/jcbrand/converse.js/releases/tag/v0.9.0)

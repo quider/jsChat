@@ -3,7 +3,7 @@
 Plugin Name: ConverseJS
 Plugin URI: https://conversejs.org/
 Description: This plugin add the javascript code for Converse.js a Jabber/XMPP chat for your WordPress.
-Version: 2.0.1
+Version: 2.0.2
 Author: camaran
 Author URI: http://www.chatme.im
 */
@@ -18,6 +18,7 @@ private $placeholder					= " e.g. chatme.im";
 private $call						= "false";
 private $carbons					= "false";
 private $foward						= "false";
+private $panel						= "true";
 
 	function __construct() {
 		add_action('wp_head', 		array( $this, 'get_converse_head') );
@@ -47,6 +48,7 @@ private $foward						= "false";
 		$foward = (get_option('foward')) ?: $this->foward;
 		$placeholder = (get_option('placeholder')) ?: $this->placeholder;
 		$providers_link = (!filter_var(get_option('providers_link'),FILTER_VALIDATE_URL)) ? $this->providers_link: get_option('providers_link');
+		$panel = (get_option('panel')) ?: $this->panel;
 		
 	echo "\n".'<!-- Messenger -->
 		<script>
@@ -58,13 +60,13 @@ private $foward						= "false";
 		        	hide_muc_server: false,
 		        	i18n: locales.'.$lng.',
 		        	prebind: false,
-		        	show_controlbox_by_default: true,
+		        	show_controlbox_by_default: '.$panel.',
 		        	xhr_user_search: false,		        		           
-					show_call_button: '.$call.',
-              		message_carbons: '.$carbons.',
-               		forward_messages: '.$foward.',
-					domain_placeholder: "' . $placeholder . '",
-					providers_link: "' . $providers_link . '",
+				show_call_button: '.$call.',
+              			message_carbons: '.$carbons.',
+               			forward_messages: '.$foward.',
+				domain_placeholder: "' . $placeholder . '",
+				providers_link: "' . $providers_link . '",
 		    	});
 			});
 		</script>';
@@ -83,6 +85,7 @@ private $foward						= "false";
 		register_setting('converse_options_list', 'foward');
 		register_setting('converse_options_list', 'providers_link');
 		register_setting('converse_options_list', 'placeholder');
+		register_setting('converse_options_list', 'panel');
 		}
 
 	function converse_options() {
@@ -120,7 +123,12 @@ private $foward						= "false";
 
         	<tr valign="top">
         		<th scope="row"><?php _e("Enable Call Button", 'conversejs-lng'); ?></th>
-        		<td><input type="checkbox" name="call" value="true" <?php checked('true', get_option('carbons')); ?> /> Yes</td>
+        		<td><input type="checkbox" name="call" value="true" <?php checked('true', get_option('call')); ?> /> Yes</td>
+        	</tr>
+
+        	<tr valign="top">
+        		<th scope="row"><?php _e("Hide Chat Panel Open", 'conversejs-lng'); ?></th>
+        		<td><input type="checkbox" name="panel" value="false" <?php checked('false', get_option('panel')); ?> /> Yes</td>
         	</tr>
 
         	<tr valign="top">

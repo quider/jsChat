@@ -3,7 +3,7 @@
 Plugin Name: ConverseJS
 Plugin URI: https://conversejs.org/
 Description: This plugin add the javascript code for Converse.js a Jabber/XMPP chat for your WordPress.
-Version: 2.0.4
+Version: 2.0.5
 Author: camaran
 Author URI: http://www.chatme.im
 */
@@ -12,20 +12,21 @@ class converseJS {
 	
 private $languages 					= "/languages/";
 private	$language 					= "en";	
-private $webchat 					= "http://bind.chatme.im/";
+private $webchat 					= "https://webchat.chatme.im/http-bind/";
 private $providers_link					= "http://chatme.im/servizi/domini-disponibili/";
 private $placeholder					= " e.g. chatme.im";
 private $call						= "false";
 private $carbons					= "false";
 private $foward						= "false";
 private $panel						= "true";
+private $conver						= "0.9.0";
 
 	function __construct() {
-		add_action('wp_head', 		array( $this, 'get_converse_head') );
-		add_action('wp_footer', 	array( $this, 'get_converse_footer') );
-		add_action('admin_menu', 	array( $this, 'converse_menu') );
-		add_action('admin_init', 	array( $this, 'register_converse_mysettings') );
-		add_action( 'init', 		array( $this, 'my_plugin_init') );
+		add_action('wp_enqueue_scripts', 	array( $this, 'get_converse_head') );
+		add_action('wp_footer', 		array( $this, 'get_converse_footer') );
+		add_action('admin_menu', 		array( $this, 'converse_menu') );
+		add_action('admin_init', 		array( $this, 'register_converse_mysettings') );
+		add_action( 'init', 			array( $this, 'my_plugin_init') );
 		}
 
 	function my_plugin_init() {
@@ -35,8 +36,8 @@ private $panel						= "true";
 
 	function get_converse_head() {
 	
-		echo "\n".'<link rel="stylesheet" type="text/css" href="'.plugins_url( '/core/css/converse.min.css' , __FILE__ ).'">';
-		echo "\n".'<script src="'.plugins_url( '/core/converse.min.js' , __FILE__ ).'"></script>';
+		wp_enqueue_style( 'ConverseJS', plugins_url( '/core/css/converse.min.css', __FILE__ ), array(), $this->conver );
+		wp_enqueue_script( 'ConverseJS', plugins_url( '/core/converse.min.js', __FILE__ ), array(), $this->conver, false );
 		}
 
 	function get_converse_footer() {

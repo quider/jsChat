@@ -1,9 +1,9 @@
-<?php
+ï»¿<?php
 /*
 Plugin Name: ConverseJS
 Plugin URI: https://conversejs.org/
 Description: This plugin add the javascript code for Converse.js a Jabber/XMPP chat for your WordPress.
-Version: 2.1.0
+Version: 2.1.1
 Author: camaran
 Author URI: http://www.chatme.im
 */
@@ -19,7 +19,7 @@ private $call						= "false";
 private $carbons					= "false";
 private $foward						= "false";
 private $panel						= "true";
-private $conver						= "0.9.0";
+private $conver						= "0.9.1";
 
 	function __construct() {
 		add_action('wp_enqueue_scripts', 	array( $this, 'get_converse_head') );
@@ -27,12 +27,44 @@ private $conver						= "0.9.0";
 		add_action('admin_menu', 		array( $this, 'converse_menu') );
 		add_action('admin_init', 		array( $this, 'register_converse_mysettings') );
 		add_action( 'init', 			array( $this, 'my_plugin_init') );
+		add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), array( $this, 'add_action_converse_links') );
 		}
 
 	function my_plugin_init() {
       	$plugin_dir = basename(dirname(__FILE__));
       	load_plugin_textdomain( 'conversejs-lng', null, $plugin_dir . $this->languages );
 		}
+
+      	function add_action_converse_links ( $links ) {
+      	$mylinks = array( '<a href="' . admin_url( 'options-general.php?page=converse-identifier' ) . '">Settings</a>', );
+      	return array_merge( $links, $mylinks );
+      	      	}
+
+      	function converse_add_help_tab () {
+          	$screen = get_current_screen();
+
+          	$screen->add_help_tab( array(
+              	      	'id'		=> 'converse_help_tab',
+              	      	'title'		=> __('Bosh Server', 'conversejs-lng'),
+              	      	'content'	=> '<p>' . __( 'The Bind Server used from ConverseJS to connect to XMPP server, you can use <b>http://bind.chatme.im</b> for all XMPP service login.<br/><br/>Variable: <i>bosh_service_url</i><br/>Default value: <i>https://webchat.chatme.im/http-bind/</i>', 'conversejs-lng' ) . '</p>',
+          	      	) );
+
+          	$screen->add_help_tab( array(
+              	      	'id'		=> 'converse_help_tab_2',
+              	      	'title'		=> __('Provider Link', 'conversejs-lng'),
+              	      	'content'	=> '<p>' . __( 'The link with XMPP service list, for example <b>http://chatme.im/servizi/domini-disponibili/</b>.<br/><br/>Variable: <i>providers_link</i><br/>Default value: <i>http://chatme.im/servizi/domini-disponibili/</i>', 'conversejs-lng' ) . '</p>',
+          	      	) );
+
+          	$screen->add_help_tab( array(
+              	      	'id'		=> 'converse_help_tab_3',
+              	      	'title'		=> __('Register Placeholder', 'conversejs-lng'),
+              	      	'content'	=> '<p>' . __( 'The placeholder that show in register page.<br/><br/>Variable: <i>domain_placeholder</i><br/>Default value: <i>e.g. chatme.im</i>', 'conversejs-lng' ) . '</p>',
+          	      	) );
+
+          	$screen->set_help_sidebar(
+                              __('<p><strong>Other Resources</strong></p><p><a href="https://conversejs.org/" target="_blank">ConverseJS Official Site</a></p><p><a href="https://conversejs.org/docs/html/index.htmls" target="_blank">ConverseJS Official Documentation</a></p><p><a href="http://xmpp.net" target="_blank">XMPP.net</a></p><p><a href="http://chatme.im" target="_blank">ChatMe Site</a></p>', 'conversejs-lng')
+                             );
+      	      	}
 
 	function get_converse_head() {
 	
@@ -76,7 +108,8 @@ private $conver						= "0.9.0";
 	}
 
 	function converse_menu() {
-  		add_options_page('ConverseJS', 'ConverseJS', 'manage_options', 'converse-identifier', array($this, 'converse_options') );
+  		$my_admin_page = add_options_page('ConverseJS', 'ConverseJS', 'manage_options', 'converse-identifier', array($this, 'converse_options') );
+  		add_action('load-'.$my_admin_page, array( $this, 'converse_add_help_tab') );
 		}
 
 	function register_converse_mysettings() {
@@ -156,8 +189,8 @@ private $conver						= "0.9.0";
         		<select id="language" name="language">
         			<option value="de" <?php selected('de', get_option('language')); ?>>Deutsch</option>
         			<option value="en" <?php selected('en', get_option('language')); ?>>English</option>
-        			<option value="es" <?php selected('es', get_option('language')); ?>>Español</option>
-        			<option value="fr" <?php selected('fr', get_option('language')); ?>>Français</option>
+        			<option value="es" <?php selected('es', get_option('language')); ?>>EspaÃ±ol</option>
+        			<option value="fr" <?php selected('fr', get_option('language')); ?>>FranÃ§ais</option>
         			<option value="it" <?php selected('it', get_option('language')); ?>>Italiano</option>
         			<option value="ja" <?php selected('ja', get_option('language')); ?>>Ja</option>
         			<option value="nl" <?php selected('nl', get_option('language')); ?>>Nederlands</option>

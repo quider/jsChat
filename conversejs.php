@@ -3,7 +3,7 @@
 Plugin Name: ConverseJS
 Plugin URI: https://conversejs.org/
 Description: This plugin add the javascript code for Converse.js a Jabber/XMPP chat for your WordPress.
-Version: 2.0.5
+Version: 2.1.0
 Author: camaran
 Author URI: http://www.chatme.im
 */
@@ -50,6 +50,7 @@ private $conver						= "0.9.0";
 		$placeholder = (get_option('placeholder')) ?: $this->placeholder;
 		$providers_link = (!filter_var(get_option('providers_link'),FILTER_VALIDATE_URL)) ? $this->providers_link: get_option('providers_link');
 		$panel = (get_option('panel')) ?: $this->panel;
+		$custom = (get_option('custom') != "") ? get_option('custom') . "," : "";
 		
 	echo "\n".'<!-- Messenger -->
 		<script>
@@ -67,6 +68,7 @@ private $conver						= "0.9.0";
                			forward_messages: '.$foward.',
 				domain_placeholder: "' . $placeholder . '",
 				providers_link: "' . $providers_link . '",
+				' . esc_js($custom) . '
 				visible_toolbar_buttons: { call: '.$call.', clear: true, emoticons: true, toggle_participants: true }
 		    	});
 			});
@@ -87,6 +89,7 @@ private $conver						= "0.9.0";
 		register_setting('converse_options_list', 'providers_link');
 		register_setting('converse_options_list', 'placeholder');
 		register_setting('converse_options_list', 'panel');
+		register_setting('converse_options_list', 'custom');
 		}
 
 	function converse_options() {
@@ -124,23 +127,28 @@ private $conver						= "0.9.0";
 
         	<tr valign="top">
         		<th scope="row"><?php _e("Enable Call Button", 'conversejs-lng'); ?></th>
-        		<td><input type="checkbox" name="call" value="true" <?php checked('true', get_option('call')); ?> /> Yes</td>
+        		<td><input type="checkbox" name="call" value="true" <?php checked('true', get_option('call')); ?> /> <?php _e("Yes", 'conversejs-lng'); ?></td>
         	</tr>
 
         	<tr valign="top">
         		<th scope="row"><?php _e("Hide Chat Panel Open", 'conversejs-lng'); ?></th>
-        		<td><input type="checkbox" name="panel" value="false" <?php checked('false', get_option('panel')); ?> /> Yes</td>
+        		<td><input type="checkbox" name="panel" value="false" <?php checked('false', get_option('panel')); ?> /> <?php _e("Yes", 'conversejs-lng'); ?></td>
         	</tr>
 
         	<tr valign="top">
         		<th scope="row"><?php _e("Enable Messages Carbons", 'conversejs-lng'); ?></th>
-        		<td><input type="checkbox" name="carbons" value="true" <?php checked('true', get_option('carbons')); ?> /> Yes</td>
+        		<td><input type="checkbox" name="carbons" value="true" <?php checked('true', get_option('carbons')); ?> /> <?php _e("Yes", 'conversejs-lng'); ?></td>
         	</tr>
 
         	<tr valign="top">
         		<th scope="row"><?php _e("Enable Foward Messages", 'conversejs-lng'); ?></th>
-        		<td><input type="checkbox" name="foward" value="true" <?php checked('true', get_option('foward')); ?> /> Yes</td>
-        	</tr>  
+        		<td><input type="checkbox" name="foward" value="true" <?php checked('true', get_option('foward')); ?> /> <?php _e("Yes", 'conversejs-lng'); ?></td>
+        	</tr> 
+
+        	<tr valign="top">
+        		<th scope="row"><?php _e('Custom Variable <br/> More info <a href="https://conversejs.org/docs/html/configuration.html#configuration-variables" target="_blank">Here.</a><br/>Not Overwrite the varables managed from other options.', 'conversejs-lng'); ?></th>
+        		<td><textarea name="custom" rows="4" cols="50"><?php echo esc_js(get_option('custom')); ?></textarea></td>
+        	</tr> 
     
         	<tr valign="top">
         		<th scope="row"><?php _e("Converse language", 'conversejs-lng'); ?></th>
@@ -168,7 +176,7 @@ private $conver						= "0.9.0";
 	<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
 	<input type="hidden" name="cmd" value="_s-xclick">
 	<input type="hidden" name="hosted_button_id" value="8CTUY8YDK5SEL">
-	<input type="image" src="https://www.paypalobjects.com/en_US/GB/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal — The safer, easier way to pay online.">
+	<input type="image" src="https://www.paypalobjects.com/en_US/GB/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online.">
 	<img alt="" border="0" src="https://www.paypalobjects.com/it_IT/i/scr/pixel.gif" width="1" height="1">
 </form>
 

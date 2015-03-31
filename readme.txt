@@ -1,10 +1,10 @@
-﻿=== ConverseJS ===
+=== ConverseJS ===
 Contributors: camaran
 Donate link: http://www.chatme.im
 Tags: chat, converse, xmpp, jabber, chatme, irc
 Requires at least: 3.8
 Tested up to: 4.2
-Stable tag: 2.1.2
+Stable tag: 2.1.3
 
 Converse.js is an open source webchat client, that runs in the browser and can be integrated into any website.
 
@@ -53,7 +53,7 @@ For Every request visit our [Forum](http://chatme.im/forums)
 
 This section describes how to install the plugin and get it working.
 
-1. Upload this directory to your plugins directory. It will create a 'wp-content/plugins/conversejs/‘ directory or install it via the WordPress.org plugin directory.
+1. Upload this directory to your plugins directory. It will create a 'wp-content/plugins/conversejs/� directory or install it via the WordPress.org plugin directory.
 2. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Frequently Asked Questions ==
@@ -65,6 +65,9 @@ This section describes how to install the plugin and get it working.
 2. The chat admin panel
 
 == Changelog ==
+
+= 2.1.3 =
+* Fix The plugin generated 3 characters of unexpected output during activation. 
 
 = 2.1.2 = 
 * Add defer
@@ -160,6 +163,9 @@ This section describes how to install the plugin and get it working.
 * First stable version
 
 == Upgrade Notice ==
+
+= 2.1.3 =
+* Fix The plugin generated 3 characters of unexpected output during activation. 
 
 = 2.1.2 =
 * Add defer

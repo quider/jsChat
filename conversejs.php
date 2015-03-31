@@ -1,9 +1,9 @@
-ï»¿<?php
+<?php
 /*
 Plugin Name: ConverseJS
 Plugin URI: https://conversejs.org/
 Description: This plugin add the javascript code for Converse.js a Jabber/XMPP chat for your WordPress.
-Version: 2.1.2
+Version: 2.1.3
 Author: camaran
 Author URI: http://www.chatme.im
 */
@@ -189,8 +189,8 @@ private $conver						= "0.9.1";
         		<select id="language" name="language">
         			<option value="de" <?php selected('de', get_option('language')); ?>>Deutsch</option>
         			<option value="en" <?php selected('en', get_option('language')); ?>>English</option>
-        			<option value="es" <?php selected('es', get_option('language')); ?>>EspaÃ±ol</option>
-        			<option value="fr" <?php selected('fr', get_option('language')); ?>>FranÃ§ais</option>
+        			<option value="es" <?php selected('es', get_option('language')); ?>>Español</option>
+        			<option value="fr" <?php selected('fr', get_option('language')); ?>>Français</option>
         			<option value="it" <?php selected('it', get_option('language')); ?>>Italiano</option>
         			<option value="ja" <?php selected('ja', get_option('language')); ?>>Ja</option>
         			<option value="nl" <?php selected('nl', get_option('language')); ?>>Nederlands</option>

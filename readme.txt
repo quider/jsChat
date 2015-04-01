@@ -1,6 +1,6 @@
 === ConverseJS ===
 Contributors: camaran
-Donate link: http://www.chatme.im
+Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=S9LJAJ7B584GL
 Tags: chat, converse, xmpp, jabber, chatme, irc
 Requires at least: 3.8
 Tested up to: 4.2

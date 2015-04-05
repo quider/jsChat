@@ -6,6 +6,8 @@ Description: This plugin add the javascript code for Converse.js a Jabber/XMPP c
 Version: 2.1.3
 Author: camaran
 Author URI: http://www.chatme.im
+Text Domain: conversejs-lng
+Domain Path: /languages/
 */
 
 class converseJS {
@@ -13,8 +15,8 @@ class converseJS {
 private $languages 					= "/languages/";
 private	$language 					= "en";	
 private $webchat 					= "https://webchat.chatme.im/http-bind/";
-private $providers_link					= "http://chatme.im/servizi/domini-disponibili/";
-private $placeholder					= " e.g. chatme.im";
+private $providers_link				= "http://chatme.im/servizi/domini-disponibili/";
+private $placeholder				= " e.g. chatme.im";
 private $call						= "false";
 private $carbons					= "false";
 private $foward						= "false";
@@ -36,7 +38,7 @@ private $conver						= "0.9.1";
 		}
 
       	function add_action_converse_links ( $links ) {
-      	$mylinks = array( '<a href="' . admin_url( 'options-general.php?page=converse-identifier' ) . '">Settings</a>', );
+      	$mylinks = array( '<a href="' . admin_url( 'options-general.php?page=converse-identifier' ) . '">' . __( 'Settings', 'conversejs-lng' ) . '</a>', );
       	return array_merge( $links, $mylinks );
       	      	}
 
@@ -132,7 +134,7 @@ private $conver						= "0.9.1";
 ?>
 <div class="wrap">
 	<h2>ConverseJS</h2>
-	<p><?php _e("For more information visit <a href='http://www.chatme.im' target='_blank'>www.chatme.im</a>", 'conversejs-lng'); ?> - <a href="https://webchat.chatme.im/?r=support" target="_blank">Support Chat Room</a> - <a href="https://conversejs.org/" trget="_blank">ConverseJS.org</a></p> 
+	<p><?php _e("For more information visit <a href='http://www.chatme.im' target='_blank'>www.chatme.im</a>", 'conversejs-lng'); ?> - <?php _e('<a href="https://webchat.chatme.im/?r=support" target="_blank">Support Chat Room</a> - <a href="https://conversejs.org/" trget="_blank">ConverseJS.org</a></p> ', 'conversejs-lng'); ?>
 
 	<form method="post" action="options.php">
     	<?php settings_fields( 'converse_options_list' ); ?>
@@ -203,7 +205,7 @@ private $conver						= "0.9.1";
     <p class="submit">
     	<input type="submit" class="button-primary" value="<?php _e('Save Changes', 'conversejs-lng') ?>" />
     </p>
-    <p>For Ever request you can use our <a href="http://chatme.im/forums" target="_blank">forum</a></p>
+    <p><?php _e('For Ever request you can use our <a href="http://chatme.im/forums" target="_blank">forum</a>', 'conversejs-lng') ?></p>
 
 </form>
 	<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">

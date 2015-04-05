@@ -6,7 +6,7 @@ Description: This plugin add the javascript code for Converse.js a Jabber/XMPP c
 Version: 2.1.3
 Author: camaran
 Author URI: http://www.chatme.im
-Text Domain: conversejs-lng
+Text Domain: conversejs
 Domain Path: /languages/
 */
 
@@ -34,11 +34,11 @@ private $conver						= "0.9.1";
 
 	function my_plugin_init() {
       	$plugin_dir = basename(dirname(__FILE__));
-      	load_plugin_textdomain( 'conversejs-lng', null, $plugin_dir . $this->languages );
+      	load_plugin_textdomain( 'conversejs', null, $plugin_dir . $this->languages );
 		}
 
       	function add_action_converse_links ( $links ) {
-      	$mylinks = array( '<a href="' . admin_url( 'options-general.php?page=converse-identifier' ) . '">' . __( 'Settings', 'conversejs-lng' ) . '</a>', );
+      	$mylinks = array( '<a href="' . admin_url( 'options-general.php?page=converse-identifier' ) . '">' . __( 'Settings', 'conversejs' ) . '</a>', );
       	return array_merge( $links, $mylinks );
       	      	}
 
@@ -47,24 +47,24 @@ private $conver						= "0.9.1";
 
           	$screen->add_help_tab( array(
               	      	'id'		=> 'converse_help_tab',
-              	      	'title'		=> __('Bosh Server', 'conversejs-lng'),
-              	      	'content'	=> '<p>' . __( 'The Bind Server used from ConverseJS to connect to XMPP server, you can use <b>http://bind.chatme.im</b> for all XMPP service login.<br/><br/>Variable: <i>bosh_service_url</i><br/>Default value: <i>https://webchat.chatme.im/http-bind/</i>', 'conversejs-lng' ) . '</p>',
+              	      	'title'		=> __('Bosh Server', 'conversejs'),
+              	      	'content'	=> '<p>' . __( 'The Bind Server used from ConverseJS to connect to XMPP server, you can use <b>http://bind.chatme.im</b> for all XMPP service login.<br/><br/>Variable: <i>bosh_service_url</i><br/>Default value: <i>https://webchat.chatme.im/http-bind/</i>', 'conversejs' ) . '</p>',
           	      	) );
 
           	$screen->add_help_tab( array(
               	      	'id'		=> 'converse_help_tab_2',
-              	      	'title'		=> __('Provider Link', 'conversejs-lng'),
-              	      	'content'	=> '<p>' . __( 'The link with XMPP service list, for example <b>http://chatme.im/servizi/domini-disponibili/</b>.<br/><br/>Variable: <i>providers_link</i><br/>Default value: <i>http://chatme.im/servizi/domini-disponibili/</i>', 'conversejs-lng' ) . '</p>',
+              	      	'title'		=> __('Provider Link', 'conversejs'),
+              	      	'content'	=> '<p>' . __( 'The link with XMPP service list, for example <b>http://chatme.im/servizi/domini-disponibili/</b>.<br/><br/>Variable: <i>providers_link</i><br/>Default value: <i>http://chatme.im/servizi/domini-disponibili/</i>', 'conversejs' ) . '</p>',
           	      	) );
 
           	$screen->add_help_tab( array(
               	      	'id'		=> 'converse_help_tab_3',
-              	      	'title'		=> __('Register Placeholder', 'conversejs-lng'),
-              	      	'content'	=> '<p>' . __( 'The placeholder that show in register page.<br/><br/>Variable: <i>domain_placeholder</i><br/>Default value: <i>e.g. chatme.im</i>', 'conversejs-lng' ) . '</p>',
+              	      	'title'		=> __('Register Placeholder', 'conversejs'),
+              	      	'content'	=> '<p>' . __( 'The placeholder that show in register page.<br/><br/>Variable: <i>domain_placeholder</i><br/>Default value: <i>e.g. chatme.im</i>', 'conversejs' ) . '</p>',
           	      	) );
 
           	$screen->set_help_sidebar(
-                              __('<p><strong>Other Resources</strong></p><p><a href="https://conversejs.org/" target="_blank">ConverseJS Official Site</a></p><p><a href="https://conversejs.org/docs/html/index.htmls" target="_blank">ConverseJS Official Documentation</a></p><p><a href="http://xmpp.net" target="_blank">XMPP.net</a></p><p><a href="http://chatme.im" target="_blank">ChatMe Site</a></p>', 'conversejs-lng')
+                              __('<p><strong>Other Resources</strong></p><p><a href="https://conversejs.org/" target="_blank">ConverseJS Official Site</a></p><p><a href="https://conversejs.org/docs/html/index.htmls" target="_blank">ConverseJS Official Documentation</a></p><p><a href="http://xmpp.net" target="_blank">XMPP.net</a></p><p><a href="http://chatme.im" target="_blank">ChatMe Site</a></p>', 'conversejs')
                              );
       	      	}
 
@@ -129,64 +129,64 @@ private $conver						= "0.9.1";
 
 	function converse_options() {
   		if (!current_user_can('manage_options'))  {
-    	wp_die( __('You do not have sufficient permissions to access this page.', 'conversejs-lng') );
+    	wp_die( __('You do not have sufficient permissions to access this page.', 'conversejs') );
   		}
 ?>
 <div class="wrap">
 	<h2>ConverseJS</h2>
-	<p><?php _e("For more information visit <a href='http://www.chatme.im' target='_blank'>www.chatme.im</a>", 'conversejs-lng'); ?> - <?php _e('<a href="https://webchat.chatme.im/?r=support" target="_blank">Support Chat Room</a> - <a href="https://conversejs.org/" trget="_blank">ConverseJS.org</a></p> ', 'conversejs-lng'); ?>
+	<p><?php _e("For more information visit <a href='http://www.chatme.im' target='_blank'>www.chatme.im</a>", 'conversejs'); ?> - <?php _e('<a href="https://webchat.chatme.im/?r=support" target="_blank">Support Chat Room</a> - <a href="https://conversejs.org/" trget="_blank">ConverseJS.org</a></p> ', 'conversejs'); ?>
 
 	<form method="post" action="options.php">
     	<?php settings_fields( 'converse_options_list' ); ?>
     	<table class="form-table">
         	<tr valign="top">
-        		<th scope="row"><?php _e("Bosh Server", 'conversejs-lng'); ?></th>
+        		<th scope="row"><?php _e("Bosh Server", 'conversejs'); ?></th>
         	<td>
-        		<input id="bosh" name="bosh" type="url" placeholder="<?php _e("bosh service", 'conversejs-lng'); ?>" value="<?php echo get_option('bosh'); ?>"><br/><em><?php _e("We suggest http://webchat.chatme.im/http-bind/", 'conversejs-lng'); ?></em>
+        		<input id="bosh" name="bosh" type="url" placeholder="<?php _e("bosh service", 'conversejs'); ?>" value="<?php echo get_option('bosh'); ?>"><br/><em><?php _e("We suggest http://webchat.chatme.im/http-bind/", 'conversejs'); ?></em>
         	</td>
         	</tr> 
             
         	<tr valign="top">
-        		<th scope="row"><?php _e("Provider Link", 'conversejs-lng'); ?></th>
+        		<th scope="row"><?php _e("Provider Link", 'conversejs'); ?></th>
         	<td>
-        		<input id="providers_link" name="providers_link" type="url" placeholder="<?php _e("provider link", 'conversejs-lng'); ?>" value="<?php echo get_option('providers_link'); ?>"><br/><em><?php _e("We suggest http://chatme.im/servizi/domini-disponibili/", 'conversejs-lng'); ?></em>
+        		<input id="providers_link" name="providers_link" type="url" placeholder="<?php _e("provider link", 'conversejs'); ?>" value="<?php echo get_option('providers_link'); ?>"><br/><em><?php _e("We suggest http://chatme.im/servizi/domini-disponibili/", 'conversejs'); ?></em>
         	</td>
         	</tr> 
             
         	<tr valign="top">
-        		<th scope="row"><?php _e("Register Placeholder", 'conversejs-lng'); ?></th>
+        		<th scope="row"><?php _e("Register Placeholder", 'conversejs'); ?></th>
         	<td>
-        		<input id="placeholder" name="placeholder" type="text" placeholder="<?php _e("register placeholder", 'conversejs-lng'); ?>" value="<?php echo get_option('placeholder'); ?>"><br/><em><?php _e("We suggest e.g. chatme.im", 'conversejs-lng'); ?></em>
+        		<input id="placeholder" name="placeholder" type="text" placeholder="<?php _e("register placeholder", 'conversejs'); ?>" value="<?php echo get_option('placeholder'); ?>"><br/><em><?php _e("We suggest e.g. chatme.im", 'conversejs'); ?></em>
         	</td>
         	</tr>                           
 
         	<tr valign="top">
-        		<th scope="row"><?php _e("Enable Call Button", 'conversejs-lng'); ?></th>
-        		<td><input type="checkbox" name="call" value="true" <?php checked('true', get_option('call')); ?> /> <?php _e("Yes", 'conversejs-lng'); ?></td>
+        		<th scope="row"><?php _e("Enable Call Button", 'conversejs'); ?></th>
+        		<td><input type="checkbox" name="call" value="true" <?php checked('true', get_option('call')); ?> /> <?php _e("Yes", 'conversejs'); ?></td>
         	</tr>
 
         	<tr valign="top">
-        		<th scope="row"><?php _e("Hide Chat Panel Open", 'conversejs-lng'); ?></th>
-        		<td><input type="checkbox" name="panel" value="false" <?php checked('false', get_option('panel')); ?> /> <?php _e("Yes", 'conversejs-lng'); ?></td>
+        		<th scope="row"><?php _e("Hide Chat Panel Open", 'conversejs'); ?></th>
+        		<td><input type="checkbox" name="panel" value="false" <?php checked('false', get_option('panel')); ?> /> <?php _e("Yes", 'conversejs'); ?></td>
         	</tr>
 
         	<tr valign="top">
-        		<th scope="row"><?php _e("Enable Messages Carbons", 'conversejs-lng'); ?></th>
-        		<td><input type="checkbox" name="carbons" value="true" <?php checked('true', get_option('carbons')); ?> /> <?php _e("Yes", 'conversejs-lng'); ?></td>
+        		<th scope="row"><?php _e("Enable Messages Carbons", 'conversejs'); ?></th>
+        		<td><input type="checkbox" name="carbons" value="true" <?php checked('true', get_option('carbons')); ?> /> <?php _e("Yes", 'conversejs'); ?></td>
         	</tr>
 
         	<tr valign="top">
-        		<th scope="row"><?php _e("Enable Foward Messages", 'conversejs-lng'); ?></th>
-        		<td><input type="checkbox" name="foward" value="true" <?php checked('true', get_option('foward')); ?> /> <?php _e("Yes", 'conversejs-lng'); ?></td>
+        		<th scope="row"><?php _e("Enable Foward Messages", 'conversejs'); ?></th>
+        		<td><input type="checkbox" name="foward" value="true" <?php checked('true', get_option('foward')); ?> /> <?php _e("Yes", 'conversejs'); ?></td>
         	</tr> 
 
         	<tr valign="top">
-        		<th scope="row"><?php _e('Custom Variable <br/> More info <a href="https://conversejs.org/docs/html/configuration.html#configuration-variables" target="_blank">Here.</a><br/>Not Overwrite the varables managed from other options.', 'conversejs-lng'); ?></th>
+        		<th scope="row"><?php _e('Custom Variable <br/> More info <a href="https://conversejs.org/docs/html/configuration.html#configuration-variables" target="_blank">Here.</a><br/>Not Overwrite the varables managed from other options.', 'conversejs'); ?></th>
         		<td><textarea name="custom" rows="4" cols="50"><?php echo esc_js(get_option('custom')); ?></textarea></td>
         	</tr> 
     
         	<tr valign="top">
-        		<th scope="row"><?php _e("Converse language", 'conversejs-lng'); ?></th>
+        		<th scope="row"><?php _e("Converse language", 'conversejs'); ?></th>
         	<td>
         		<select id="language" name="language">
         			<option value="de" <?php selected('de', get_option('language')); ?>>Deutsch</option>
@@ -203,9 +203,9 @@ private $conver						= "0.9.1";
     </table>
     
     <p class="submit">
-    	<input type="submit" class="button-primary" value="<?php _e('Save Changes', 'conversejs-lng') ?>" />
+    	<input type="submit" class="button-primary" value="<?php _e('Save Changes', 'conversejs') ?>" />
     </p>
-    <p><?php _e('For Ever request you can use our <a href="http://chatme.im/forums" target="_blank">forum</a>', 'conversejs-lng') ?></p>
+    <p><?php _e('For Ever request you can use our <a href="http://chatme.im/forums" target="_blank">forum</a>', 'conversejs') ?></p>
 
 </form>
 	<form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">

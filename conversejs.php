@@ -1,9 +1,11 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) exit;
+
 /*
 Plugin Name: ConverseJS
 Plugin URI: https://conversejs.org/
 Description: This plugin add the javascript code for Converse.js a Jabber/XMPP chat for your WordPress.
-Version: 2.1.8
+Version: 2.2.0
 Author: camaran
 Author URI: http://www.chatme.im
 Text Domain: conversejs
@@ -38,7 +40,7 @@ private $conver						= "0.9.3";
 		}
 
       	function add_action_converse_links ( $links ) {
-      	$mylinks = array( '<a href="' . admin_url( 'options-general.php?page=converse-identifier' ) . '">' . __( 'Settings', 'conversejs' ) . '</a>', );
+      	$mylinks = array( '<a href="' . admin_url( 'admin.php?page=converse-identifier' ) . '">' . __( 'Settings', 'conversejs' ) . '</a>', );
       	return array_merge( $links, $mylinks );
       	      	}
 
@@ -102,6 +104,8 @@ private $conver						= "0.9.3";
                			forward_messages: '.$foward.',
 				domain_placeholder: "' . $placeholder . '",
 				providers_link: "' . $providers_link . '",
+				play_sounds: true,
+				sounds_path: \'wp-content/plugins/'.basename(dirname(__FILE__)).'/core/sounds\',
 				' . esc_js($custom) . '
 				visible_toolbar_buttons: { call: '.$call.', clear: true, emoticons: true, toggle_participants: true }
 		    	});
@@ -110,9 +114,17 @@ private $conver						= "0.9.3";
 	}
 
 	function converse_menu() {
-  		$my_admin_page = add_options_page('ConverseJS', 'ConverseJS', 'manage_options', 'converse-identifier', array($this, 'converse_options') );
+  		$my_admin_menu_page = add_menu_page('ChatMe', 'ChatMe', 'manage_options', 'chatme-page', array($this, 'chatme_admin'), 'dashicons-format-chat' );
+  		$my_admin_page = add_submenu_page('chatme-page', 'ConverseJS', 'ConverseJS', 'manage_options', 'converse-identifier', array($this, 'converse_options') );
   		add_action('load-'.$my_admin_page, array( $this, 'converse_add_help_tab') );
 		}
+
+function chatme_admin(){ ?>
+	<div class="wrap">
+		<h2>ChatMe</h2>
+		<p><a href="http://chatme.im" target="_blank">www.chatme.im</a></p>
+	</div>
+<?php }
 
 	function register_converse_mysettings() {
 	//register our settings
@@ -134,6 +146,7 @@ private $conver						= "0.9.3";
 ?>
 <div class="wrap">
 	<h2>ConverseJS</h2>
+	<?php settings_errors(); ?>
 	<p><?php _e("For more information visit <a href='http://www.chatme.im' target='_blank'>www.chatme.im</a>", 'conversejs'); ?> - <?php _e('<a href="https://webchat.chatme.im/?r=support" target="_blank">Support Chat Room</a> - <a href="https://conversejs.org/" trget="_blank">ConverseJS.org</a></p> ', 'conversejs'); ?>
 
 	<form method="post" action="options.php">
@@ -202,9 +215,8 @@ private $conver						= "0.9.3";
         </tr>
     </table>
     
-    <p class="submit">
-    	<input type="submit" class="button-primary" value="<?php _e('Save Changes', 'conversejs') ?>" />
-    </p>
+	<?php submit_button(); ?>
+
     <p><?php _e('For Ever request you can use our <a href="http://chatme.im/forums" target="_blank">forum</a>', 'conversejs') ?></p>
 
 </form>

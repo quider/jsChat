@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 Plugin Name: ConverseJS
 Plugin URI: https://conversejs.org/
 Description: This plugin add the javascript code for Converse.js a Jabber/XMPP chat for your WordPress.
-Version: 2.2.0
+Version: 2.3.0
 Author: camaran
 Author URI: http://www.chatme.im
 Text Domain: conversejs
@@ -14,16 +14,19 @@ Domain Path: /languages/
 
 class converseJS {
 	
-private $languages 					= "/languages/";
-private	$language 					= "en";	
-private $webchat 					= "https://bind.chatme.im/";
-private $providers_link				= "http://chatme.im/servizi/domini-disponibili/";
-private $placeholder				= " e.g. chatme.im";
-private $call						= "false";
-private $carbons					= "false";
-private $foward						= "false";
-private $panel						= "true";
-private $conver						= "0.9.3";
+private $default 	= array(
+						'languages' 		=> '/languages/',
+						'language' 			=> 'en',	
+						'webchat' 			=> 'https://bind.chatme.im/',
+						'providers_link'	=> 'http://chatme.im/servizi/domini-disponibili/',
+						'placeholder'		=> ' e.g. chatme.im',
+						'call'				=> 'false',
+						'carbons'			=> 'false',
+						'foward'			=> 'false',
+						'panel'				=> 'true',
+						'conver'			=> '0.9.3',
+						'custom'			=> '',
+						);
 
 	function __construct() {
 		add_action('wp_enqueue_scripts', 	array( $this, 'get_converse_head') );
@@ -36,7 +39,7 @@ private $conver						= "0.9.3";
 
 	function my_plugin_init() {
       	$plugin_dir = basename(dirname(__FILE__));
-      	load_plugin_textdomain( 'conversejs', null, $plugin_dir . $this->languages );
+      	load_plugin_textdomain( 'conversejs', null, $plugin_dir . $this->default['languages'] );
 		}
 
       	function add_action_converse_links ( $links ) {
@@ -72,50 +75,68 @@ private $conver						= "0.9.3";
 
 	function get_converse_head() {
 	
-		wp_enqueue_style( 'ConverseJS', plugins_url( '/core/css/converse.min.css', __FILE__ ), array(), $this->conver );
-		wp_enqueue_script( 'ConverseJS', plugins_url( '/core/converse.min.js', __FILE__ ), array(), $this->conver, false );
+		wp_enqueue_style( 'ConverseJS', plugins_url( '/core/css/converse.min.css', __FILE__ ), array(), $this->default['conver'] );
+		wp_enqueue_script( 'ConverseJS', plugins_url( '/core/converse.min.js', __FILE__ ), array(), $this->default['conver'], false );
 		}
 
 	function get_converse_footer() {
-
-		$lng = (get_option('language') == '') ? $this->language : get_option('language');
-		$bsh = (!filter_var(get_option('bosh'),FILTER_VALIDATE_URL)) ? $this->webchat : get_option('bosh');
-		$call = (get_option('call')) ?: $this->call;
-		$carbons = (get_option('carbons')) ?: $this->carbons;
-		$foward = (get_option('foward')) ?: $this->foward;
-		$placeholder = (get_option('placeholder')) ?: $this->placeholder;
-		$providers_link = (!filter_var(get_option('providers_link'),FILTER_VALIDATE_URL)) ? $this->providers_link: get_option('providers_link');
-		$panel = (get_option('panel')) ?: $this->panel;
-		$custom = (get_option('custom') != "") ? get_option('custom') . "," : "";
 		
-	echo "\n".'<!-- Messenger -->
-		<script defer>
+		$setting	= array(
+						'language' 			=> esc_html(get_option('language')),	
+						'webchat' 			=> esc_url(get_option('bosh')),
+						'providers_link'	=> esc_url(get_option('providers_link')),
+						'placeholder'		=> esc_html(get_option('placeholder')),
+						'call'				=> esc_html(get_option('call')),
+						'carbons'			=> esc_html(get_option('carbons')),
+						'foward'			=> esc_html(get_option('foward')),
+						'panel'				=> esc_html(get_option('panel')),	
+						'custom'			=> esc_js(get_option('custom')),				
+						);
+						
+		foreach( $setting as $k => $settings )
+			if( false == $settings )
+				unset( $setting[$k]);
+						
+		$actual = wp_parse_args( $setting, $this->default );							
+		
+		printf( '
+		
+		<!-- Messenger -->
+		<script>
 			require([\'converse\'], function (converse) {
 		    	converse.initialize({
 		        	auto_list_rooms: false,
 		        	auto_subscribe: false,
-		        	bosh_service_url: \''.$bsh.'\',
+		        	bosh_service_url: \'%s\',
 		        	hide_muc_server: false,
-		        	i18n: locales.'.$lng.',
+		        	i18n: locales.%s,
 		        	prebind: false,
-		        	show_controlbox_by_default: '.$panel.',
+		        	show_controlbox_by_default: %s,
 		        	xhr_user_search: false,		        		           
-              			message_carbons: '.$carbons.',
-               			forward_messages: '.$foward.',
-				domain_placeholder: "' . $placeholder . '",
-				providers_link: "' . $providers_link . '",
-				play_sounds: true,
-				sounds_path: \'wp-content/plugins/'.basename(dirname(__FILE__)).'/core/sounds\',
-				' . esc_js($custom) . '
-				visible_toolbar_buttons: { call: '.$call.', clear: true, emoticons: true, toggle_participants: true }
+              		message_carbons: %s,
+               		forward_messages: %s,
+					domain_placeholder: "%s",
+					providers_link: "%s",
+					play_sounds: true,
+					%s
+					visible_toolbar_buttons: { call: %s, clear: true, emoticons: true, toggle_participants: true }
 		    	});
 			});
-		</script>';
+		</script>',
+				$actual['webchat'],
+				$actual['language'],
+				$actual['panel'],
+				$actual['carbons'],
+				$actual['foward'],
+				$actual['placeholder'],
+				$actual['providers_link'],
+				$actual['custom'],
+				$actual['call']
+				);
 	}
 
 	function converse_menu() {
-  		$my_admin_menu_page = add_menu_page('ChatMe', 'ChatMe', 'manage_options', 'chatme-page', array($this, 'chatme_admin'), 'dashicons-format-chat' );
-  		$my_admin_page = add_submenu_page('chatme-page', 'ConverseJS', 'ConverseJS', 'manage_options', 'converse-identifier', array($this, 'converse_options') );
+  		$my_admin_page = add_options_page('ConverseJS', 'ConverseJS', 'manage_options', 'converse-identifier', array($this, 'converse_options') );
   		add_action('load-'.$my_admin_page, array( $this, 'converse_add_help_tab') );
 		}
 
@@ -146,7 +167,6 @@ function chatme_admin(){ ?>
 ?>
 <div class="wrap">
 	<h2>ConverseJS</h2>
-	<?php settings_errors(); ?>
 	<p><?php _e("For more information visit <a href='http://www.chatme.im' target='_blank'>www.chatme.im</a>", 'conversejs'); ?> - <?php _e('<a href="https://webchat.chatme.im/?r=support" target="_blank">Support Chat Room</a> - <a href="https://conversejs.org/" trget="_blank">ConverseJS.org</a></p> ', 'conversejs'); ?>
 
 	<form method="post" action="options.php">

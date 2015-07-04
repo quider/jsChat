@@ -15,17 +15,26 @@ Domain Path: /languages/
 class converseJS {
 	
 private $default 	= array(
-						'languages' 		=> '/languages/',
-						'language' 			=> 'en',	
-						'webchat' 			=> 'https://bind.chatme.im/',
-						'providers_link'	=> 'http://chatme.im/servizi/domini-disponibili/',
-						'placeholder'		=> ' e.g. chatme.im',
-						'call'				=> 'false',
-						'carbons'			=> 'false',
-						'foward'			=> 'false',
-						'panel'				=> 'true',
-						'conver'			=> '0.9.3',
-						'custom'			=> '',
+						'languages' 			=> '/languages/',
+						'language' 				=> 'en',	
+						'webchat' 				=> 'https://bind.chatme.im/',
+						'providers_link'		=> 'http://chatme.im/servizi/domini-disponibili/',
+						'placeholder'			=> ' e.g. chatme.im',
+						'call'					=> 'false',
+						'carbons'				=> 'false',
+						'foward'				=> 'false',
+						'panel'					=> 'true',
+						'conver'				=> '0.9.3',
+						'custom'				=> '',
+						'clear'					=> 'true', 
+						'emoticons'				=> 'true', 
+						'toggle_participants'	=> 'true', 
+						'play_sounds'			=> 'true',
+						'xhr_user_search'		=> 'false',
+						'prebind'				=> 'false',
+						'hide_muc_server'		=> 'false',
+						'auto_list_rooms'		=> 'false',
+		        		'auto_subscribe'		=> 'false',
 						);
 
 	function __construct() {
@@ -82,15 +91,24 @@ private $default 	= array(
 	function get_converse_footer() {
 		
 		$setting	= array(
-						'language' 			=> esc_html(get_option('language')),	
-						'webchat' 			=> esc_url(get_option('bosh')),
-						'providers_link'	=> esc_url(get_option('providers_link')),
-						'placeholder'		=> esc_html(get_option('placeholder')),
-						'call'				=> esc_html(get_option('call')),
-						'carbons'			=> esc_html(get_option('carbons')),
-						'foward'			=> esc_html(get_option('foward')),
-						'panel'				=> esc_html(get_option('panel')),	
-						'custom'			=> esc_js(get_option('custom')),				
+						'language' 				=> esc_html(get_option('language')),	
+						'webchat' 				=> esc_url(get_option('bosh')),
+						'providers_link'		=> esc_url(get_option('providers_link')),
+						'placeholder'			=> esc_html(get_option('placeholder')),
+						'call'					=> esc_html(get_option('call')),
+						'carbons'				=> esc_html(get_option('carbons')),
+						'foward'				=> esc_html(get_option('foward')),
+						'panel'					=> esc_html(get_option('panel')),	
+						'custom'				=> esc_js(get_option('custom')),	
+						'clear'					=> esc_html(get_option('clear')), 
+						'emoticons'				=> esc_html(get_option('emoticons')), 
+						'toggle_participants'	=> esc_html(get_option('toggle_participants')), 
+						'play_sounds'			=> esc_html(get_option('play_sounds')),
+						'xhr_user_search'		=> esc_html(get_option('xhr_user_search')),
+						'prebind'				=> esc_html(get_option('prebind')),
+						'hide_muc_server'		=> esc_html(get_option('hide_muc_server')),
+						'auto_list_rooms'		=> esc_html(get_option('auto_list_rooms')),
+		        		'auto_subscribe'		=> esc_html(get_option('auto_subscribe')),			
 						);
 						
 		foreach( $setting as $k => $settings )
@@ -105,33 +123,42 @@ private $default 	= array(
 		<script>
 			require([\'converse\'], function (converse) {
 		    	converse.initialize({
-		        	auto_list_rooms: false,
-		        	auto_subscribe: false,
+		        	auto_list_rooms: %s,
+		        	auto_subscribe: %s,
 		        	bosh_service_url: \'%s\',
-		        	hide_muc_server: false,
+		        	hide_muc_server: %s,
 		        	i18n: locales.%s,
-		        	prebind: false,
+		        	prebind: %s,
 		        	show_controlbox_by_default: %s,
-		        	xhr_user_search: false,		        		           
+		        	xhr_user_search: %s,		        		           
               		message_carbons: %s,
                		forward_messages: %s,
 					domain_placeholder: "%s",
 					providers_link: "%s",
-					play_sounds: true,
+					play_sounds: %s,
 					%s
-					visible_toolbar_buttons: { call: %s, clear: true, emoticons: true, toggle_participants: true }
+					visible_toolbar_buttons: { call: %s, clear: %s, emoticons: %s, toggle_participants: %}
 		    	});
 			});
 		</script>',
+				$actual['auto_list_rooms'],
+		        $actual['auto_subscribe'],
 				$actual['webchat'],
+				$actual['hide_muc_server'],
 				$actual['language'],
+				$actual['prebind'],
 				$actual['panel'],
+				$actual['xhr_user_search'],
 				$actual['carbons'],
 				$actual['foward'],
 				$actual['placeholder'],
 				$actual['providers_link'],
+				$actual['play_sounds'],
 				$actual['custom'],
-				$actual['call']
+				$actual['call'],
+				$actual['clear'], 
+				$actual['emoticons'], 
+				$actual['toggle_participants']
 				);
 	}
 
@@ -158,6 +185,16 @@ function chatme_admin(){ ?>
 		register_setting('converse_options_list', 'placeholder');
 		register_setting('converse_options_list', 'panel');
 		register_setting('converse_options_list', 'custom');
+		
+		register_setting('converse_options_list', 'clear'); 
+		register_setting('converse_options_list', 'emoticons'); 
+		register_setting('converse_options_list', 'toggle_participants'); 
+		register_setting('converse_options_list', 'play_sounds');
+		register_setting('converse_options_list', 'xhr_user_search');
+		register_setting('converse_options_list', 'prebind');
+		register_setting('converse_options_list', 'hide_muc_server');
+		register_setting('converse_options_list', 'auto_list_rooms');
+		register_setting('converse_options_list', 'auto_subscribe');
 		}
 
 	function converse_options() {

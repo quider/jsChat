@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 Plugin Name: ConverseJS
 Plugin URI: https://conversejs.org/
 Description: This plugin add the javascript code for Converse.js a Jabber/XMPP chat for your WordPress.
-Version: 2.3.1
+Version: 2.3.2
 Author: camaran
 Author URI: http://www.chatme.im
 Text Domain: conversejs
@@ -139,7 +139,7 @@ private $default 	= array(
 					providers_link: "%s",
 					play_sounds: %s,
 					%s
-					visible_toolbar_buttons: { call: %s, clear: %s, emoticons: %s, toggle_participants: %}
+					visible_toolbar_buttons: { call: %s, clear: %s, emoticons: %s, toggle_participants: %s}
 		    	});
 			});
 		</script>',

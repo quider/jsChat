@@ -34,7 +34,8 @@ private $default 	= array(
 						'prebind'				=> 'false',
 						'hide_muc_server'		=> 'false',
 						'auto_list_rooms'		=> 'false',
-		        		'auto_subscribe'		=> 'false',
+		        			'auto_subscribe'		=> 'false',
+						'bosh_type'			=> 'bosh_service_url',
 						);
 
 	function __construct() {
@@ -62,17 +63,23 @@ private $default 	= array(
           	$screen->add_help_tab( array(
               	      	'id'		=> 'converse_help_tab',
               	      	'title'		=> __('Bosh Server', 'conversejs'),
-              	      	'content'	=> '<p>' . __( 'The Bind Server used from ConverseJS to connect to XMPP server, you can use <b>http://bind.chatme.im</b> for all XMPP service login.<br/><br/>Variable: <i>bosh_service_url</i><br/>Default value: <i>https://webchat.chatme.im/http-bind/</i>', 'conversejs' ) . '</p>',
+              	      	'content'	=> '<p>' . __( 'The Bind Server used from ConverseJS to connect to XMPP server, you can use <b>https://bind.chatme.im</b> for all XMPP service login.<br/><br/>Variable: <i>bosh_service_url</i><br/>Default value: <i>https://bind.chatme.im</i>', 'conversejs' ) . '</p>',
           	      	) );
 
           	$screen->add_help_tab( array(
               	      	'id'		=> 'converse_help_tab_2',
+              	      	'title'		=> __('WebSocket Server', 'conversejs'),
+              	      	'content'	=> '<p>' . __( 'The WebSocket Server used from ConverseJS to connect to XMPP server, you can use <b>wss//ws.chatme.im</b> for all XMPP service login.<br/><br/>Variable: <i>websocket_url</i><br/>Default value: <i>wss://ws.chatme.im</i><br /><br />WebSocket server is more fast than bosh server but work only with modern browsers', 'conversejs' ) . '</p>',
+          	      	) );
+
+          	$screen->add_help_tab( array(
+              	      	'id'		=> 'converse_help_tab_3',
               	      	'title'		=> __('Provider Link', 'conversejs'),
               	      	'content'	=> '<p>' . __( 'The link with XMPP service list, for example <b>http://chatme.im/servizi/domini-disponibili/</b>.<br/><br/>Variable: <i>providers_link</i><br/>Default value: <i>http://chatme.im/servizi/domini-disponibili/</i>', 'conversejs' ) . '</p>',
           	      	) );
 
           	$screen->add_help_tab( array(
-              	      	'id'		=> 'converse_help_tab_3',
+              	      	'id'		=> 'converse_help_tab_4',
               	      	'title'		=> __('Register Placeholder', 'conversejs'),
               	      	'content'	=> '<p>' . __( 'The placeholder that show in register page.<br/><br/>Variable: <i>domain_placeholder</i><br/>Default value: <i>e.g. chatme.im</i>', 'conversejs' ) . '</p>',
           	      	) );
@@ -110,7 +117,9 @@ private $default 	= array(
 						'prebind'				=> esc_html(get_option('prebind')),
 						'hide_muc_server'		=> esc_html(get_option('hide_muc_server')),
 						'auto_list_rooms'		=> esc_html(get_option('auto_list_rooms')),
-		        		'auto_subscribe'		=> esc_html(get_option('auto_subscribe')),			
+		        			'auto_subscribe'		=> esc_html(get_option('auto_subscribe')),	
+						'bosh_type'			=> esc_html(get_option('bosh_type')),
+		
 						);
 						
 		foreach( $setting as $k => $settings )
@@ -127,7 +136,7 @@ private $default 	= array(
 		    	converse.initialize({
 		        	auto_list_rooms: %s,
 		        	auto_subscribe: %s,
-		        	bosh_service_url: \'%s\',
+		        	%s: \'%s\',
 		        	hide_muc_server: %s,
 		        	i18n: locales.%s,
 		        	prebind: %s,
@@ -144,7 +153,8 @@ private $default 	= array(
 			});
 		</script>',
 				$actual['auto_list_rooms'],
-		        $actual['auto_subscribe'],
+		        	$actual['auto_subscribe'],
+		        	$actual['bosh_type'],
 				$actual['webchat'],
 				$actual['hide_muc_server'],
 				$actual['language'],
@@ -187,6 +197,7 @@ function chatme_admin(){ ?>
 		register_setting('converse_options_list', 'placeholder');
 		register_setting('converse_options_list', 'panel');
 		register_setting('converse_options_list', 'custom');
+		register_setting('converse_options_list', 'bosh_type');
 		
 		register_setting('converse_options_list', 'clear'); 
 		register_setting('converse_options_list', 'emoticons'); 
@@ -212,9 +223,14 @@ function chatme_admin(){ ?>
     	<?php settings_fields( 'converse_options_list' ); ?>
     	<table class="form-table">
         	<tr valign="top">
-        		<th scope="row"><?php _e("Bosh Server", 'conversejs'); ?></th>
+        		<th scope="row">
+				<select id="language" name="bosh_type">
+					<option value="bosh_service_url" <?php selected('bosh_service_url', get_option('bosh_type')); ?>><?php _e("Bosh Server", 'conversejs'); ?></option>
+					<option value="websocket_url" <?php selected('websocket_url', get_option('bosh_type')); ?>><?php _e("WebSocket Server", 'conversejs'); ?></option>
+				</select>
+			</th>
         	<td>
-        		<input id="bosh" name="bosh" type="url" placeholder="<?php _e("bosh service", 'conversejs'); ?>" value="<?php echo get_option('bosh'); ?>"><br/><em><?php _e("We suggest http://webchat.chatme.im/http-bind/", 'conversejs'); ?></em>
+        		<input id="bosh" name="bosh" type="url" placeholder="<?php _e("bosh/WS service", 'conversejs'); ?>" value="<?php echo get_option('bosh'); ?>"><br/><em><?php _e("We suggest: <br/>Bosh: https://bind.chatme.im<br />WebSocket: wss//ws.chatme.im", 'conversejs'); ?></em>
         	</td>
         	</tr> 
             
@@ -263,8 +279,8 @@ function chatme_admin(){ ?>
         		<select id="language" name="language">
         			<option value="de" <?php selected('de', get_option('language')); ?>>Deutsch</option>
         			<option value="en" <?php selected('en', get_option('language')); ?>>English</option>
-        			<option value="es" <?php selected('es', get_option('language')); ?>>Español</option>
-        			<option value="fr" <?php selected('fr', get_option('language')); ?>>Français</option>
+        			<option value="es" <?php selected('es', get_option('language')); ?>>Espanol</option>
+        			<option value="fr" <?php selected('fr', get_option('language')); ?>>Francais</option>
         			<option value="it" <?php selected('it', get_option('language')); ?>>Italiano</option>
         			<option value="ja" <?php selected('ja', get_option('language')); ?>>Ja</option>
         			<option value="nl" <?php selected('nl', get_option('language')); ?>>Nederlands</option>

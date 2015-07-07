@@ -16,26 +16,27 @@ class converseJS {
 	
 private $default 	= array(
 						'languages' 			=> '/languages/',
-						'language' 				=> 'en',	
-						'webchat' 				=> 'https://bind.chatme.im/',
+						'language' 			=> 'en',	
+						'webchat' 			=> 'https://bind.chatme.im/',
 						'providers_link'		=> 'http://chatme.im/servizi/domini-disponibili/',
 						'placeholder'			=> ' e.g. chatme.im',
-						'call'					=> 'false',
-						'carbons'				=> 'false',
-						'foward'				=> 'false',
-						'panel'					=> 'true',
-						'conver'				=> '0.9.4',
-						'custom'				=> '',
-						'clear'					=> 'true', 
-						'emoticons'				=> 'true', 
-						'toggle_participants'	=> 'true', 
-						'play_sounds'			=> 'true',
+						'call'				=> 'false',
+						'carbons'			=> 'false',
+						'foward'			=> 'false',
+						'panel'				=> 'true',
+						'conver'			=> '0.9.4',
+						'custom'			=> '',
+						'clear'				=> 'false', 
+						'emoticons'			=> 'false', 
+						'toggle_participants'		=> 'false', 
+						'play_sounds'			=> 'false',
 						'xhr_user_search'		=> 'false',
-						'prebind'				=> 'false',
+						'prebind'			=> 'false',
 						'hide_muc_server'		=> 'false',
 						'auto_list_rooms'		=> 'false',
 		        			'auto_subscribe'		=> 'false',
 						'bosh_type'			=> 'bosh_service_url',
+						'sounds_path'			=> './sounds',
 						);
 
 	function __construct() {
@@ -119,6 +120,7 @@ private $default 	= array(
 						'auto_list_rooms'		=> esc_html(get_option('auto_list_rooms')),
 		        			'auto_subscribe'		=> esc_html(get_option('auto_subscribe')),	
 						'bosh_type'			=> esc_html(get_option('bosh_type')),
+						'sounds_path'			=> esc_html(get_option('sounds_path')),
 		
 						);
 						
@@ -142,13 +144,14 @@ private $default 	= array(
 		        	prebind: %s,
 		        	show_controlbox_by_default: %s,
 		        	xhr_user_search: %s,		        		           
-              		message_carbons: %s,
-               		forward_messages: %s,
-					domain_placeholder: "%s",
-					providers_link: "%s",
-					play_sounds: %s,
-					%s
-					visible_toolbar_buttons: { call: %s, clear: %s, emoticons: %s, toggle_participants: %s}
+              			message_carbons: %s,
+               			forward_messages: %s,
+				domain_placeholder: "%s",
+				providers_link: "%s",
+				play_sounds: %s,
+				sounds_path: \'%s\',
+				%s
+				visible_toolbar_buttons: { call: %s, clear: %s, emoticons: %s, toggle_participants: %s}
 		    	});
 			});
 		</script>',
@@ -166,6 +169,7 @@ private $default 	= array(
 				$actual['placeholder'],
 				$actual['providers_link'],
 				$actual['play_sounds'],
+				$actual['sounds_path'],
 				$actual['custom'],
 				$actual['call'],
 				$actual['clear'], 
@@ -198,11 +202,12 @@ function chatme_admin(){ ?>
 		register_setting('converse_options_list', 'panel');
 		register_setting('converse_options_list', 'custom');
 		register_setting('converse_options_list', 'bosh_type');
-		
 		register_setting('converse_options_list', 'clear'); 
 		register_setting('converse_options_list', 'emoticons'); 
-		register_setting('converse_options_list', 'toggle_participants'); 
+		register_setting('converse_options_list', 'toggle_participants');		
 		register_setting('converse_options_list', 'play_sounds');
+		register_setting('converse_options_list', 'sounds_path'); 
+
 		register_setting('converse_options_list', 'xhr_user_search');
 		register_setting('converse_options_list', 'prebind');
 		register_setting('converse_options_list', 'hide_muc_server');
@@ -249,13 +254,18 @@ function chatme_admin(){ ?>
         	</tr>                           
 
         	<tr valign="top">
-        		<th scope="row"><?php _e("Enable Call Button", 'conversejs'); ?></th>
-        		<td><input type="checkbox" name="call" value="true" <?php checked('true', get_option('call')); ?> /> <?php _e("Yes", 'conversejs'); ?></td>
+        		<th scope="row"><?php _e("Visible Buttons", 'conversejs'); ?></th>
+        		<td><?php _e("Enable Call Button", 'conversejs'); ?> <input type="checkbox" name="call" value="true" <?php checked('true', get_option('call')); ?> /> - <?php _e("Enable Clear Button", 'conversejs'); ?> <input type="checkbox" name="clear" value="true" <?php checked('true', get_option('clear')); ?> /> - <?php _e("Enable Emoticons", 'conversejs'); ?> <input type="checkbox" name="emoticons" value="true" <?php checked('true', get_option('emoticons')); ?> /> - <?php _e("Enable toggle participants Button", 'conversejs'); ?> <input type="checkbox" name="toggle_participants" value="true" <?php checked('true', get_option('toggle_participants')); ?> /></td>
         	</tr>
 
         	<tr valign="top">
         		<th scope="row"><?php _e("Hide Chat Panel Open", 'conversejs'); ?></th>
         		<td><input type="checkbox" name="panel" value="false" <?php checked('false', get_option('panel')); ?> /> <?php _e("Yes", 'conversejs'); ?></td>
+        	</tr>
+
+        	<tr valign="top">
+        		<th scope="row"><?php _e("Sounds", 'conversejs'); ?></th>
+        		<td><?php _e("Play Sounds", 'conversejs'); ?> <input type="checkbox" name="play_sounds" value="false" <?php checked('true', get_option('play_sounds')); ?> /><br/><?php _e("Sounds Path", 'conversejs'); ?><input id="placeholder" name="sounds_path" type="text" placeholder="<?php _e("./sounds", 'conversejs'); ?>" value="<?php echo get_option('sounds_path'); ?>"><br/><em><?php _e("sound patch ./sounds work with mp3 and odg", 'conversejs'); ?></em></td>
         	</tr>
 
         	<tr valign="top">

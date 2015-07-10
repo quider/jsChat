@@ -5,6 +5,8 @@ Tags: chat, converse, xmpp, jabber, chatme, irc
 Requires at least: 3.8
 Tested up to: 4.3
 Stable tag: 2.4.0
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 Converse.js is an open source webchat client, that runs in the browser and can be integrated into any website.
 
@@ -58,6 +60,9 @@ This section describes how to install the plugin and get it working.
 
 == Frequently Asked Questions ==
 
+= Where i can found variables documentations? =
+
+The Official documentation is available [here](https://conversejs.org/docs/html/index.html)
 
 == Screenshots ==
 

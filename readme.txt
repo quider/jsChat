@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: chat, converse, xmpp, jabber, chatme, irc
 Requires at least: 3.8
 Tested up to: 4.3
-Stable tag: 2.4.0
+Stable tag: 2.4.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -70,6 +70,10 @@ The Official documentation is available [here](https://conversejs.org/docs/html/
 2. The chat admin panel
 
 == Changelog ==
+
+= 2.4.1 =
+* Add converse_actual filter for custom actual array
+* Add converse_html filter for custom html
 
 = 2.4.0 =
 * Updated Italian Language

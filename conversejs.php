@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 Plugin Name: ConverseJS
 Plugin URI: https://conversejs.org/
 Description: This plugin add the javascript code for Converse.js a Jabber/XMPP chat for your WordPress.
-Version: 2.4.0
+Version: 2.4.1
 Author: camaran
 Author URI: http://www.chatme.im
 Text Domain: conversejs
@@ -15,29 +15,29 @@ Domain Path: /languages/
 class converseJS {
 	
 private $default 	= array(
-						'languages' 			=> '/languages/',
-						'language' 			=> 'en',	
-						'webchat' 			=> 'https://bind.chatme.im/',
-						'providers_link'		=> 'http://chatme.im/servizi/domini-disponibili/',
-						'placeholder'			=> ' e.g. chatme.im',
-						'call'				=> 'false',
-						'carbons'			=> 'false',
-						'foward'			=> 'false',
-						'panel'				=> 'true',
-						'conver'			=> '0.9.4',
-						'custom'			=> '',
-						'clear'				=> 'false', 
-						'emoticons'			=> 'false', 
-						'toggle_participants'		=> 'false', 
-						'play_sounds'			=> 'false',
-						'xhr_user_search'		=> 'false',
-						'prebind'			=> 'false',
-						'hide_muc_server'		=> 'false',
-						'auto_list_rooms'		=> 'false',
-		        			'auto_subscribe'		=> 'false',
-						'bosh_type'			=> 'bosh_service_url',
-						'sounds_path'			=> './sounds',
-						);
+				'languages' 			=> '/languages/',
+				'language' 			    => 'en',	
+				'webchat' 			    => 'https://bind.chatme.im/',
+				'providers_link'		=> 'http://chatme.im/servizi/domini-disponibili/',
+				'placeholder'			=> ' e.g. chatme.im',
+				'call'				    => 'false',
+				'carbons'			    => 'false',
+				'foward'			    => 'false',
+				'panel'				    => 'true',
+				'conver'			    => '0.9.4',
+				'custom'			    => '',
+				'clear'				    => 'false', 
+				'emoticons'			    => 'false', 
+				'toggle_participants'	=> 'false', 
+				'play_sounds'			=> 'false',
+				'xhr_user_search'		=> 'false',
+				'prebind'			    => 'false',
+				'hide_muc_server'		=> 'false',
+				'auto_list_rooms'		=> 'false',
+		        	'auto_subscribe'		=> 'false',
+				'bosh_type'			    => 'bosh_service_url',
+				'sounds_path'			=> './sounds/',
+				);
 
 	function __construct() {
 		add_action('wp_enqueue_scripts', 	array( $this, 'get_converse_head') );
@@ -100,37 +100,37 @@ private $default 	= array(
 
 	function get_converse_footer() {
 		
-		$setting	= array(
-						'language' 				=> esc_html(get_option('language')),	
-						'webchat' 				=> esc_url(get_option('bosh')),
-						'providers_link'		=> esc_url(get_option('providers_link')),
-						'placeholder'			=> esc_html(get_option('placeholder')),
-						'call'					=> esc_html(get_option('call')),
-						'carbons'				=> esc_html(get_option('carbons')),
-						'foward'				=> esc_html(get_option('foward')),
-						'panel'					=> esc_html(get_option('panel')),	
-						'custom'				=> esc_js(get_option('custom')),	
-						'clear'					=> esc_html(get_option('clear')), 
-						'emoticons'				=> esc_html(get_option('emoticons')), 
-						'toggle_participants'	=> esc_html(get_option('toggle_participants')), 
-						'play_sounds'			=> esc_html(get_option('play_sounds')),
-						'xhr_user_search'		=> esc_html(get_option('xhr_user_search')),
-						'prebind'				=> esc_html(get_option('prebind')),
-						'hide_muc_server'		=> esc_html(get_option('hide_muc_server')),
-						'auto_list_rooms'		=> esc_html(get_option('auto_list_rooms')),
-		        			'auto_subscribe'		=> esc_html(get_option('auto_subscribe')),	
-						'bosh_type'			=> esc_html(get_option('bosh_type')),
-						'sounds_path'			=> esc_html(get_option('sounds_path')),
-		
-						);
+		$setting = array(
+				'language' 			=> esc_html(get_option('language')),	
+				'webchat' 			=> esc_url(get_option('bosh')),
+				'providers_link'		=> esc_url(get_option('providers_link')),
+				'placeholder'			=> esc_html(get_option('placeholder')),
+				'call'				=> esc_html(get_option('call')),
+				'carbons'			=> esc_html(get_option('carbons')),
+				'foward'			=> esc_html(get_option('foward')),
+				'panel'				=> esc_html(get_option('panel')),	
+				'custom'			=> esc_js(get_option('custom')),	
+				'clear'				=> esc_html(get_option('clear')), 
+				'emoticons'			=> esc_html(get_option('emoticons')), 
+				'toggle_participants'		=> esc_html(get_option('toggle_participants')), 
+				'play_sounds'			=> esc_html(get_option('play_sounds')),
+				'xhr_user_search'		=> esc_html(get_option('xhr_user_search')),
+				'prebind'			=> esc_html(get_option('prebind')),
+				'hide_muc_server'		=> esc_html(get_option('hide_muc_server')),
+				'auto_list_rooms'		=> esc_html(get_option('auto_list_rooms')),
+		        	'auto_subscribe'		=> esc_html(get_option('auto_subscribe')),	
+				'bosh_type'			=> esc_html(get_option('bosh_type')),
+				'sounds_path'			=> esc_html(get_option('sounds_path')),
+		);
 						
 		foreach( $setting as $k => $settings )
 			if( false == $settings )
 				unset( $setting[$k]);
 						
-		$actual = wp_parse_args( $setting, $this->default );							
+		$actual = apply_filters( 'converse_actual', wp_parse_args( $setting, $this->default ) );
+		//$actual = wp_parse_args( $setting, $this->default );							
 		
-		printf( '
+		$converse_html = printf( '
 		
 		<!-- Messenger -->
 		<script>
@@ -156,8 +156,8 @@ private $default 	= array(
 			});
 		</script>',
 				$actual['auto_list_rooms'],
-		        	$actual['auto_subscribe'],
-		        	$actual['bosh_type'],
+		        $actual['auto_subscribe'],
+		        $actual['bosh_type'],
 				$actual['webchat'],
 				$actual['hide_muc_server'],
 				$actual['language'],
@@ -176,6 +176,9 @@ private $default 	= array(
 				$actual['emoticons'], 
 				$actual['toggle_participants']
 				);
+                
+        return apply_filters( 'converse_html', $converse_html );
+                
 	}
 
 	function converse_menu() {

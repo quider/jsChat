@@ -36,16 +36,16 @@ private $default 	= array(
 				'prebind'			    => 'false',
 				'hide_muc_server'		=> 'false',
 				'auto_list_rooms'		=> 'false',
-		        	'auto_subscribe'		=> 'false',
+		        'auto_subscribe'		=> 'false',
 				'bosh_type'			    => 'bosh_service_url',
 				'sounds_path'			=> './sounds/',
 				);
 
 	function __construct() {
-		add_action('wp_enqueue_scripts', 	array( $this, 'get_converse_head') );
-		add_action('wp_footer', 		array( $this, 'get_converse_footer') );
-		add_action('admin_menu', 		array( $this, 'converse_menu') );
-		add_action('admin_init', 		array( $this, 'register_converse_mysettings') );
+		add_action( 'wp_enqueue_scripts', 	array( $this, 'get_converse_head') );
+		add_action( 'wp_footer', 		array( $this, 'get_converse_footer') );
+		add_action( 'admin_menu', 		array( $this, 'converse_menu') );
+		add_action( 'admin_init', 		array( $this, 'register_converse_mysettings') );
 		add_action( 'init', 			array( $this, 'my_plugin_init') );
 		add_filter( 'plugin_action_links_' . plugin_basename(__FILE__), array( $this, 'add_action_converse_links') );
 		}
@@ -103,25 +103,25 @@ private $default 	= array(
 	function get_converse_footer() {
 		
 		$setting = array(
-				'language' 			=> esc_html(get_option('language')),	
-				'webchat' 			=> esc_url(get_option('bosh')),
+				'language' 				=> esc_html(get_option('language')),	
+				'webchat' 				=> esc_url(get_option('bosh')),
 				'providers_link'		=> esc_url(get_option('providers_link')),
 				'placeholder'			=> esc_html(get_option('placeholder')),
-				'call'				=> esc_html(get_option('call')),
-				'carbons'			=> esc_html(get_option('carbons')),
-				'foward'			=> esc_html(get_option('foward')),
-				'panel'				=> esc_html(get_option('panel')),	
-				'custom'			=> esc_js(get_option('custom')),	
-				'clear'				=> esc_html(get_option('clear')), 
-				'emoticons'			=> esc_html(get_option('emoticons')), 
-				'toggle_participants'		=> esc_html(get_option('toggle_participants')), 
+				'call'					=> esc_html(get_option('call')),
+				'carbons'				=> esc_html(get_option('carbons')),
+				'foward'				=> esc_html(get_option('foward')),
+				'panel'					=> esc_html(get_option('panel')),	
+				'custom'				=> esc_js(get_option('custom')),	
+				'clear'					=> esc_html(get_option('clear')), 
+				'emoticons'				=> esc_html(get_option('emoticons')), 
+				'toggle_participants'	=> esc_html(get_option('toggle_participants')), 
 				'play_sounds'			=> esc_html(get_option('play_sounds')),
 				'xhr_user_search'		=> esc_html(get_option('xhr_user_search')),
-				'prebind'			=> esc_html(get_option('prebind')),
+				'prebind'				=> esc_html(get_option('prebind')),
 				'hide_muc_server'		=> esc_html(get_option('hide_muc_server')),
 				'auto_list_rooms'		=> esc_html(get_option('auto_list_rooms')),
-		        	'auto_subscribe'		=> esc_html(get_option('auto_subscribe')),	
-				'bosh_type'			=> esc_html(get_option('bosh_type')),
+		        'auto_subscribe'		=> esc_html(get_option('auto_subscribe')),	
+				'bosh_type'				=> esc_html(get_option('bosh_type')),
 				'sounds_path'			=> esc_html(get_option('sounds_path')),
 		);
 						
@@ -146,14 +146,14 @@ private $default 	= array(
 		        	prebind: %s,
 		        	show_controlbox_by_default: %s,
 		        	xhr_user_search: %s,		        		           
-              			message_carbons: %s,
-               			forward_messages: %s,
-				domain_placeholder: "%s",
-				providers_link: "%s",
-				play_sounds: %s,
-				sounds_path: \'%s\',
-				%s
-				visible_toolbar_buttons: { call: %s, clear: %s, emoticons: %s, toggle_participants: %s}
+              		message_carbons: %s,
+               		forward_messages: %s,
+					domain_placeholder: "%s",
+					providers_link: "%s",
+					play_sounds: %s,
+					sounds_path: \'%s\',
+					%s
+					visible_toolbar_buttons: { call: %s, clear: %s, emoticons: %s, toggle_participants: %s}
 		    	});
 			});
 		</script>',
@@ -187,13 +187,6 @@ private $default 	= array(
   		$my_admin_page = add_options_page( __('ConverseJS','conversejs'), __('ConverseJS','conversejs'), 'manage_options', 'converse-identifier', array($this, 'converse_options') );
   		add_action('load-'.$my_admin_page, array( $this, 'converse_add_help_tab') );
 		}
-
-function chatme_admin(){ ?>
-	<div class="wrap">
-		<h2>ChatMe</h2>
-		<p><a href="http://chatme.im" target="_blank">www.chatme.im</a></p>
-	</div>
-<?php }
 
 	function register_converse_mysettings() {
 	//register our settings

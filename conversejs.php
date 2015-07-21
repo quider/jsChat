@@ -1,4 +1,6 @@
 <?php
+namespace ChatMe;
+
 if ( ! defined( 'ABSPATH' ) ) exit;
 
 /*
@@ -322,5 +324,5 @@ function chatme_admin(){ ?>
 <?php 
 	}
 } 
-new converseJS;
+new \ChatMe\converseJS;
 ?>

@@ -184,7 +184,7 @@ private $default 	= array(
 	}
 
 	function converse_menu() {
-  		$my_admin_page = add_options_page('ConverseJS', 'ConverseJS', 'manage_options', 'converse-identifier', array($this, 'converse_options') );
+  		$my_admin_page = add_options_page( __('ConverseJS','conversejs'), __('ConverseJS','conversejs'), 'manage_options', 'converse-identifier', array($this, 'converse_options') );
   		add_action('load-'.$my_admin_page, array( $this, 'converse_add_help_tab') );
 		}
 

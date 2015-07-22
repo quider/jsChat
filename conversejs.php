@@ -30,15 +30,16 @@ private $default 	= array(
 				'custom'			    => '',
 				'clear'				    => 'false', 
 				'emoticons'			    => 'false', 
-				'toggle_participants'	=> 'false', 
+				'toggle_participants'		=> 'false', 
 				'play_sounds'			=> 'false',
 				'xhr_user_search'		=> 'false',
-				'prebind'			    => 'false',
+				'prebind'			=> 'false',
 				'hide_muc_server'		=> 'false',
 				'auto_list_rooms'		=> 'false',
-		        'auto_subscribe'		=> 'false',
-				'bosh_type'			    => 'bosh_service_url',
+		        	'auto_subscribe'		=> 'false',
+				'bosh_type'			=> 'bosh_service_url',
 				'sounds_path'			=> './sounds/',
+				'plugin_options_key'		=> 'converseJS',
 				);
 
 	function __construct() {
@@ -56,7 +57,7 @@ private $default 	= array(
 		}
 
       	function add_action_converse_links ( $links ) {
-      	$mylinks = array( '<a href="' . admin_url( 'admin.php?page=converse-identifier' ) . '">' . __( 'Settings', 'conversejs' ) . '</a>', );
+      	$mylinks = array( '<a href="' . admin_url( 'admin.php?page=' . $this->default['plugin_options_key'] ) . '">' . __( 'Settings', 'conversejs' ) . '</a>', );
       	return array_merge( $links, $mylinks );
       	      	}
 
@@ -184,7 +185,7 @@ private $default 	= array(
 	}
 
 	function converse_menu() {
-  		$my_admin_page = add_options_page( __('ConverseJS','conversejs'), __('ConverseJS','conversejs'), 'manage_options', 'converse-identifier', array($this, 'converse_options') );
+  		$my_admin_page = add_options_page( __('ConverseJS','conversejs'), __('ConverseJS','conversejs'), 'manage_options', $this->default['plugin_options_key'], array($this, 'converse_options') );
   		add_action('load-'.$my_admin_page, array( $this, 'converse_add_help_tab') );
 		}
 

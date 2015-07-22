@@ -112,7 +112,7 @@ private $default 	= array(
 				'carbons'				=> esc_html(get_option('carbons')),
 				'foward'				=> esc_html(get_option('foward')),
 				'panel'					=> esc_html(get_option('panel')),	
-				'custom'				=> esc_js(get_option('custom')),	
+				'custom'				=> wp_kses(get_option('custom'),''),	
 				'clear'					=> esc_html(get_option('clear')), 
 				'emoticons'				=> esc_html(get_option('emoticons')), 
 				'toggle_participants'	=> esc_html(get_option('toggle_participants')), 
@@ -279,7 +279,7 @@ private $default 	= array(
 
         	<tr valign="top">
         		<th scope="row"><?php _e('Custom Variable <br/> More info <a href="https://conversejs.org/docs/html/configuration.html#configuration-variables" target="_blank">Here.</a><br/>Not Overwrite the varables managed from other options.', 'conversejs'); ?></th>
-        		<td><textarea name="custom" rows="4" cols="50"><?php echo esc_js(get_option('custom')); ?></textarea></td>
+        		<td><textarea name="custom" rows="4" cols="50"><?php echo wp_kses(get_option('custom'),''); ?></textarea><br><?php _e('For advance use converse_html hook', 'conversejs'); ?></td>
         	</tr> 
     
         	<tr valign="top">

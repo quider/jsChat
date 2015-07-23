@@ -4,7 +4,7 @@ Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: chat, converse, xmpp, jabber, chatme, irc
 Requires at least: 3.8
 Tested up to: 4.3
-Stable tag: 2.4.3
+Stable tag: 2.4.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -70,6 +70,10 @@ The Official documentation is available [here](https://conversejs.org/docs/html/
 2. The chat admin panel
 
 == Changelog ==
+
+= 2.4.4 =
+* Add Hide_muc_server option
+* Add enable_roster_group option
 
 = 2.4.3 =
 * Fix Custom variable Bug
@@ -216,6 +220,10 @@ The Official documentation is available [here](https://conversejs.org/docs/html/
 * First stable version
 
 == Upgrade Notice ==
+
+= 2.4.4 =
+* Add Hide_muc_server option
+* Add enable_roster_group option
 
 = 2.4.3 =
 * Fix Custom variable Bug

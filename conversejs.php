@@ -40,6 +40,7 @@ private $default 	= array(
 				'bosh_type'			=> 'bosh_service_url',
 				'sounds_path'			=> './sounds/',
 				'plugin_options_key'		=> 'converseJS',
+				'roster_groups'			=> 'false',
 				);
 
 	function __construct() {
@@ -124,6 +125,7 @@ private $default 	= array(
 		        'auto_subscribe'		=> esc_html(get_option('auto_subscribe')),	
 				'bosh_type'				=> esc_html(get_option('bosh_type')),
 				'sounds_path'			=> esc_html(get_option('sounds_path')),
+				'roster_groups'			=> esc_html(get_option('roster_groups')),
 		);
 						
 		foreach( $setting as $k => $settings )
@@ -143,41 +145,43 @@ private $default 	= array(
 		        	auto_subscribe: %s,
 		        	%s: \'%s\',
 		        	hide_muc_server: %s,
-		        	i18n: locales.%s,
+		        	i18n: locales[\'%s\'],
 		        	prebind: %s,
 		        	show_controlbox_by_default: %s,
 		        	xhr_user_search: %s,		        		           
-              		message_carbons: %s,
-               		forward_messages: %s,
-					domain_placeholder: "%s",
-					providers_link: "%s",
-					play_sounds: %s,
-					sounds_path: \'%s\',
-					%s
-					visible_toolbar_buttons: { call: %s, clear: %s, emoticons: %s, toggle_participants: %s}
+              			message_carbons: %s,
+               			forward_messages: %s,
+				domain_placeholder: "%s",
+				providers_link: "%s",
+				play_sounds: %s,
+				sounds_path: \'%s\',
+				roster_groups: %s,
+				%s
+				visible_toolbar_buttons: { call: %s, clear: %s, emoticons: %s, toggle_participants: %s}
 		    	});
 			});
 		</script>',
-				$actual['auto_list_rooms'],
+			$actual['auto_list_rooms'],
 		        $actual['auto_subscribe'],
 		        $actual['bosh_type'],
-				$actual['webchat'],
-				$actual['hide_muc_server'],
-				$actual['language'],
-				$actual['prebind'],
-				$actual['panel'],
-				$actual['xhr_user_search'],
-				$actual['carbons'],
-				$actual['foward'],
-				$actual['placeholder'],
-				$actual['providers_link'],
-				$actual['play_sounds'],
-				$actual['sounds_path'],
-				$actual['custom'],
-				$actual['call'],
-				$actual['clear'], 
-				$actual['emoticons'], 
-				$actual['toggle_participants']
+			$actual['webchat'],
+			$actual['hide_muc_server'],
+			$actual['language'],
+			$actual['prebind'],
+			$actual['panel'],
+			$actual['xhr_user_search'],
+			$actual['carbons'],
+			$actual['foward'],
+			$actual['placeholder'],
+			$actual['providers_link'],
+			$actual['play_sounds'],
+			$actual['sounds_path'],
+			$actual['roster_groups'],
+			$actual['custom'],
+			$actual['call'],
+			$actual['clear'], 
+			$actual['emoticons'], 
+			$actual['toggle_participants']
 				);
                 
         return apply_filters( 'converse_html', $converse_html );
@@ -206,10 +210,11 @@ private $default 	= array(
 		register_setting('converse_options_list', 'toggle_participants');		
 		register_setting('converse_options_list', 'play_sounds');
 		register_setting('converse_options_list', 'sounds_path'); 
+		register_setting('converse_options_list', 'roster_groups');
+		register_setting('converse_options_list', 'hide_muc_server');
 
 		register_setting('converse_options_list', 'xhr_user_search');
 		register_setting('converse_options_list', 'prebind');
-		register_setting('converse_options_list', 'hide_muc_server');
 		register_setting('converse_options_list', 'auto_list_rooms');
 		register_setting('converse_options_list', 'auto_subscribe');
 		}
@@ -268,13 +273,13 @@ private $default 	= array(
         	</tr>
 
         	<tr valign="top">
-        		<th scope="row"><?php _e("Enable Messages Carbons", 'conversejs'); ?></th>
-        		<td><input type="checkbox" name="carbons" value="true" <?php checked('true', get_option('carbons')); ?> /> <?php _e("Yes", 'conversejs'); ?></td>
+        		<th scope="row"><?php _e("Functions", 'conversejs'); ?></th>
+        		<td><?php _e("Enable Messages Carbons", 'conversejs'); ?> <input type="checkbox" name="carbons" value="true" <?php checked('true', get_option('carbons')); ?> /> - <?php _e("Enable Foward Messages", 'conversejs'); ?> <input type="checkbox" name="foward" value="true" <?php checked('true', get_option('foward')); ?> /> - <?php _e("Hide MUC Server", 'conversejs'); ?>  <input type="checkbox" name="hide_muc_server" value="true" <?php checked('true', get_option('hide_muc_server')); ?> /></td>
         	</tr>
 
         	<tr valign="top">
-        		<th scope="row"><?php _e("Enable Foward Messages", 'conversejs'); ?></th>
-        		<td><input type="checkbox" name="foward" value="true" <?php checked('true', get_option('foward')); ?> /> <?php _e("Yes", 'conversejs'); ?></td>
+        		<th scope="row"><?php _e("Roster", 'conversejs'); ?></th>
+        		<td><?php _e("Enable Roster Groups", 'conversejs'); ?> <input type="checkbox" name="roster_groups" value="true" <?php checked('true', get_option('roster_groups')); ?> /> </td>
         	</tr> 
 
         	<tr valign="top">

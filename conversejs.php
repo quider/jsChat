@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 Plugin Name: ConverseJS
 Plugin URI: https://conversejs.org/
 Description: This plugin add the javascript code for Converse.js a Jabber/XMPP chat for your WordPress.
-Version: 2.4.4
+Version: 2.4.5
 Author: camaran
 Author URI: http://www.chatme.im
 Text Domain: conversejs
@@ -28,7 +28,7 @@ private $default 	= array(
 				'panel'				    => 'true',
 				'conver'			    => '0.9.4',
 				'custom'			    => '',
-				'clear'				    => 'false', 
+				'clear'				    => 'true', 
 				'emoticons'			    => 'false', 
 				'toggle_participants'		=> 'false', 
 				'play_sounds'			=> 'false',
@@ -239,21 +239,21 @@ private $default 	= array(
 				</select>
 			</th>
         	<td>
-        		<input id="bosh" name="bosh" type="url" placeholder="<?php _e("bosh/WS service", 'conversejs'); ?>" value="<?php echo get_option('bosh'); ?>"><br/><em><?php _e("We suggest: <br/>Bosh: https://bind.chatme.im<br />WebSocket: wss//ws.chatme.im", 'conversejs'); ?></em>
+        		<input class="regular-text" aria-describedby="bosh-description" id="bosh" name="bosh" type="url" placeholder="<?php _e("bosh/WS service", 'conversejs'); ?>" value="<?php echo get_option('bosh'); ?>"><p class="description" id="bosh-description"><?php _e("We suggest: <br/>Bosh: https://bind.chatme.im<br />WebSocket: wss//ws.chatme.im", 'conversejs'); ?></p>
         	</td>
         	</tr> 
             
         	<tr valign="top">
         		<th scope="row"><?php _e("Provider Link", 'conversejs'); ?></th>
         	<td>
-        		<input id="providers_link" name="providers_link" type="url" placeholder="<?php _e("provider link", 'conversejs'); ?>" value="<?php echo get_option('providers_link'); ?>"><br/><em><?php _e("We suggest http://chatme.im/servizi/domini-disponibili/", 'conversejs'); ?></em>
+        		<input class="regular-text" aria-describedby="link-description" id="providers_link" name="providers_link" type="url" placeholder="<?php _e("provider link", 'conversejs'); ?>" value="<?php echo get_option('providers_link'); ?>"><p class="description" id="link-description"><?php _e("We suggest http://chatme.im/servizi/domini-disponibili/", 'conversejs'); ?></p>
         	</td>
         	</tr> 
             
         	<tr valign="top">
         		<th scope="row"><?php _e("Register Placeholder", 'conversejs'); ?></th>
         	<td>
-        		<input id="placeholder" name="placeholder" type="text" placeholder="<?php _e("register placeholder", 'conversejs'); ?>" value="<?php echo get_option('placeholder'); ?>"><br/><em><?php _e("We suggest e.g. chatme.im", 'conversejs'); ?></em>
+        		<input class="regular-text" aria-describedby="placeholder-description" id="placeholder" name="placeholder" type="text" placeholder="<?php _e("register placeholder", 'conversejs'); ?>" value="<?php echo get_option('placeholder'); ?>"><p class="description" id="placeholder-description"><?php _e("We suggest e.g. chatme.im", 'conversejs'); ?></p>
         	</td>
         	</tr>                           
 
@@ -269,7 +269,7 @@ private $default 	= array(
 
         	<tr valign="top">
         		<th scope="row"><?php _e("Sounds", 'conversejs'); ?></th>
-        		<td><?php _e("Play Sounds", 'conversejs'); ?> <input type="checkbox" name="play_sounds" value="false" <?php checked('true', get_option('play_sounds')); ?> /><br/><?php _e("Sounds Path", 'conversejs'); ?><input id="placeholder" name="sounds_path" type="text" placeholder="<?php _e("./sounds", 'conversejs'); ?>" value="<?php echo get_option('sounds_path'); ?>"><br/><em><?php _e("sound patch ./sounds work with mp3 and odg", 'conversejs'); ?></em></td>
+        		<td><?php _e("Play Sounds", 'conversejs'); ?> <input type="checkbox" name="play_sounds" value="false" <?php checked('true', get_option('play_sounds')); ?> /><br/><?php _e("Sounds Path", 'conversejs'); ?><input aria-describedby="sounds-description" class="regular-text" id="placeholder" name="sounds_path" type="text" placeholder="<?php _e("./sounds", 'conversejs'); ?>" value="<?php echo get_option('sounds_path'); ?>"><p class="description" id="sounds-description"><?php _e("sound patch ./sounds work with mp3 and odg", 'conversejs'); ?></p></td>
         	</tr>
 
         	<tr valign="top">
@@ -284,7 +284,7 @@ private $default 	= array(
 
         	<tr valign="top">
         		<th scope="row"><?php _e('Custom Variable <br/> More info <a href="https://conversejs.org/docs/html/configuration.html#configuration-variables" target="_blank">Here.</a><br/>Not Overwrite the varables managed from other options.', 'conversejs'); ?></th>
-        		<td><textarea name="custom" rows="4" cols="50"><?php echo wp_kses(get_option('custom'),''); ?></textarea><br><?php _e('For advance use converse_html hook', 'conversejs'); ?></td>
+        		<td><textarea aria-describedby="custom-description" class="large-text code" name="custom" rows="4" cols="50"><?php echo wp_kses(get_option('custom'),''); ?></textarea><p class="description" id="custom-description"><?php _e('For advance use converse_html hook', 'conversejs'); ?></p></td>
         	</tr> 
     
         	<tr valign="top">

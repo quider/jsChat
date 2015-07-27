@@ -291,14 +291,14 @@ private $default 	= array(
         		<th scope="row"><?php _e("Converse language", 'conversejs'); ?></th>
         	<td>
         		<select id="language" name="language">
-        			<option value="de" <?php selected('de', get_option('language')); ?>>Deutsch</option>
-        			<option value="en" <?php selected('en', get_option('language')); ?>>English</option>
-        			<option value="es" <?php selected('es', get_option('language')); ?>>Espanol</option>
-        			<option value="fr" <?php selected('fr', get_option('language')); ?>>Francais</option>
-        			<option value="it" <?php selected('it', get_option('language')); ?>>Italiano</option>
-        			<option value="ja" <?php selected('ja', get_option('language')); ?>>Ja</option>
-        			<option value="nl" <?php selected('nl', get_option('language')); ?>>Nederlands</option>
-        			<option value="ru" <?php selected('ru', get_option('language')); ?>>Ru</option>
+        		<option value="de" <?php selected('de', get_option('language')); ?>><?php _e("Deutsch", 'conversejs'); ?></option>
+        		<option value="en" <?php selected('en', get_option('language')); ?>><?php _e("English", 'conversejs'); ?></option>
+        		<option value="es" <?php selected('es', get_option('language')); ?>><?php _e("Espa&ntilde;ol", 'conversejs'); ?></option>
+        		<option value="fr" <?php selected('fr', get_option('language')); ?>><?php _e("Fran&ccedil;ais", 'conversejs'); ?></option>
+        		<option value="it" <?php selected('it', get_option('language')); ?>><?php _e("Italiano", 'conversejs'); ?></option>
+        		<option value="ja" <?php selected('ja', get_option('language')); ?>><?php _e("Japan", 'conversejs'); ?></option>
+        		<option value="nl" <?php selected('nl', get_option('language')); ?>><?php _e("Nederlands", 'conversejs'); ?></option>
+        		<option value="ru" <?php selected('ru', get_option('language')); ?>><?php _e("Russian", 'conversejs'); ?></option>
         		</select>
         	</td>
         </tr>

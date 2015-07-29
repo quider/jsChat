@@ -54,7 +54,7 @@ private $default 	= array(
 
 	function my_plugin_init() {
       	$plugin_dir = basename(dirname(__FILE__));
-      	load_plugin_textdomain( 'conversejs', null, $plugin_dir . $this->default['languages'] );
+      	load_plugin_textdomain( 'conversejs', false, $plugin_dir . $this->default['languages'] );
 		}
 
       	function add_action_converse_links ( $links ) {
@@ -244,14 +244,14 @@ private $default 	= array(
         	</tr> 
             
         	<tr valign="top">
-        		<th scope="row"><?php _e("Provider Link", 'conversejs'); ?></th>
+        		<th scope="row"><label for="providers_link"><?php _e("Provider Link", 'conversejs'); ?></label></th>
         	<td>
         		<input class="regular-text" aria-describedby="link-description" id="providers_link" name="providers_link" type="url" placeholder="<?php _e("provider link", 'conversejs'); ?>" value="<?php echo get_option('providers_link'); ?>"><p class="description" id="link-description"><?php _e("We suggest http://chatme.im/servizi/domini-disponibili/", 'conversejs'); ?></p>
         	</td>
         	</tr> 
             
         	<tr valign="top">
-        		<th scope="row"><?php _e("Register Placeholder", 'conversejs'); ?></th>
+        		<th scope="row"><label for="placeholder"><?php _e("Register Placeholder", 'conversejs'); ?></label></th>
         	<td>
         		<input class="regular-text" aria-describedby="placeholder-description" id="placeholder" name="placeholder" type="text" placeholder="<?php _e("register placeholder", 'conversejs'); ?>" value="<?php echo get_option('placeholder'); ?>"><p class="description" id="placeholder-description"><?php _e("We suggest e.g. chatme.im", 'conversejs'); ?></p>
         	</td>
@@ -259,27 +259,34 @@ private $default 	= array(
 
         	<tr valign="top">
         		<th scope="row"><?php _e("Visible Buttons", 'conversejs'); ?></th>
-        		<td><?php _e("Enable Call Button", 'conversejs'); ?> <input type="checkbox" name="call" value="true" <?php checked('true', get_option('call')); ?> /> - <?php _e("Enable Clear Button", 'conversejs'); ?> <input type="checkbox" name="clear" value="true" <?php checked('true', get_option('clear')); ?> /> - <?php _e("Enable Emoticons", 'conversejs'); ?> <input type="checkbox" name="emoticons" value="true" <?php checked('true', get_option('emoticons')); ?> /> - <?php _e("Enable toggle participants Button", 'conversejs'); ?> <input type="checkbox" name="toggle_participants" value="true" <?php checked('true', get_option('toggle_participants')); ?> /></td>
+        		<td>
+				<label for="call"><?php _e("Enable Call Button", 'conversejs'); ?> <input type="checkbox" id="call" name="call" value="true" <?php checked('true', get_option('call')); ?> /></label><br />
+				<label for="clear"><?php _e("Enable Clear Button", 'conversejs'); ?> <input type="checkbox" id="clear" name="clear" value="true" <?php checked('true', get_option('clear')); ?> /></label><br />
+				<label fro="emoticons"><?php _e("Enable Emoticons", 'conversejs'); ?> <input type="checkbox" id="emoticons" name="emoticons" value="true" <?php checked('true', get_option('emoticons')); ?> /></label><br />
+				<label for="toggle_participants"><?php _e("Enable toggle participants Button", 'conversejs'); ?> <input type="checkbox" name="toggle_participants" id="toggle_participants" value="true" <?php checked('true', get_option('toggle_participants')); ?> /></label></td>
         	</tr>
 
         	<tr valign="top">
         		<th scope="row"><?php _e("Hide Chat Panel Open", 'conversejs'); ?></th>
-        		<td><input type="checkbox" name="panel" value="false" <?php checked('false', get_option('panel')); ?> /> <?php _e("Yes", 'conversejs'); ?></td>
+        		<td><label for="panel"><input type="checkbox" id="panel" name="panel" value="false" <?php checked('false', get_option('panel')); ?> /> <?php _e("Yes", 'conversejs'); ?></label></td>
         	</tr>
 
         	<tr valign="top">
         		<th scope="row"><?php _e("Sounds", 'conversejs'); ?></th>
-        		<td><?php _e("Play Sounds", 'conversejs'); ?> <input type="checkbox" name="play_sounds" value="false" <?php checked('true', get_option('play_sounds')); ?> /><br/><?php _e("Sounds Path", 'conversejs'); ?><input aria-describedby="sounds-description" class="regular-text" id="placeholder" name="sounds_path" type="text" placeholder="<?php _e("./sounds", 'conversejs'); ?>" value="<?php echo get_option('sounds_path'); ?>"><p class="description" id="sounds-description"><?php _e("sound patch ./sounds work with mp3 and odg", 'conversejs'); ?></p></td>
+        		<td><label for="play_sounds"><?php _e("Play Sounds", 'conversejs'); ?> <input type="checkbox" id="play_sounds" name="play_sounds" value="false" <?php checked('true', get_option('play_sounds')); ?> /></label><br/><label for="sounds_path"><?php _e("Sounds Path", 'conversejs'); ?><input aria-describedby="sounds-description" class="regular-text" id="sounds_path" name="sounds_path" type="text" placeholder="<?php _e("./sounds", 'conversejs'); ?>" value="<?php echo get_option('sounds_path'); ?>"></label><p class="description" id="sounds-description"><?php _e("sound patch ./sounds work with mp3 and odg", 'conversejs'); ?></p></td>
         	</tr>
 
         	<tr valign="top">
         		<th scope="row"><?php _e("Functions", 'conversejs'); ?></th>
-        		<td><?php _e("Enable Messages Carbons", 'conversejs'); ?> <input type="checkbox" name="carbons" value="true" <?php checked('true', get_option('carbons')); ?> /> - <?php _e("Enable Foward Messages", 'conversejs'); ?> <input type="checkbox" name="foward" value="true" <?php checked('true', get_option('foward')); ?> /> - <?php _e("Hide MUC Server", 'conversejs'); ?>  <input type="checkbox" name="hide_muc_server" value="true" <?php checked('true', get_option('hide_muc_server')); ?> /></td>
+        		<td>
+				<label for="carbons"><?php _e("Enable Messages Carbons", 'conversejs'); ?> <input type="checkbox" name="carbons" id="carbons" value="true" <?php checked('true', get_option('carbons')); ?> /></label><br />
+				<label for="foward"><?php _e("Enable Foward Messages", 'conversejs'); ?> <input type="checkbox" name="foward" id="foward" value="true" <?php checked('true', get_option('foward')); ?> /></label><br />
+				<label for="hide_muc_server"><?php _e("Hide MUC Server", 'conversejs'); ?>  <input type="checkbox" name="hide_muc_server" id="hide_muc_server" value="true" <?php checked('true', get_option('hide_muc_server')); ?> /></label></td>
         	</tr>
 
         	<tr valign="top">
         		<th scope="row"><?php _e("Roster", 'conversejs'); ?></th>
-        		<td><?php _e("Enable Roster Groups", 'conversejs'); ?> <input type="checkbox" name="roster_groups" value="true" <?php checked('true', get_option('roster_groups')); ?> /> </td>
+        		<td><label for="roster_groups"><?php _e("Enable Roster Groups", 'conversejs'); ?> <input id="roster_groups" type="checkbox" name="roster_groups" value="true" <?php checked('true', get_option('roster_groups')); ?> /> </label></td>
         	</tr> 
 
         	<tr valign="top">

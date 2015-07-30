@@ -41,6 +41,7 @@ private $default 	= array(
 				'sounds_path'			=> './sounds/',
 				'plugin_options_key'		=> 'converseJS',
 				'roster_groups'			=> 'false',
+				'allow_otr'			=> 'false',
 				);
 
 	function __construct() {
@@ -157,6 +158,7 @@ private $default 	= array(
 				sounds_path: \'%s\',
 				roster_groups: %s,
 				%s
+				allow_otr: %s,
 				visible_toolbar_buttons: { call: %s, clear: %s, emoticons: %s, toggle_participants: %s}
 		    	});
 			});
@@ -178,6 +180,7 @@ private $default 	= array(
 			$actual['sounds_path'],
 			$actual['roster_groups'],
 			$actual['custom'],
+			$actual['allow_otr'],
 			$actual['call'],
 			$actual['clear'], 
 			$actual['emoticons'], 
@@ -212,6 +215,7 @@ private $default 	= array(
 		register_setting('converse_options_list', 'sounds_path'); 
 		register_setting('converse_options_list', 'roster_groups');
 		register_setting('converse_options_list', 'hide_muc_server');
+		register_setting('converse_options_list', 'allow_otr');
 
 		register_setting('converse_options_list', 'xhr_user_search');
 		register_setting('converse_options_list', 'prebind');
@@ -225,7 +229,7 @@ private $default 	= array(
   		}
 ?>
 <div class="wrap">
-	<h2>ConverseJS</h2>
+	<h1>ConverseJS</h1>
 	<p><?php _e("For more information visit <a href='http://www.chatme.im' target='_blank'>www.chatme.im</a>", 'conversejs'); ?> - <?php _e('<a href="https://webchat.chatme.im/?r=support" target="_blank">Support Chat Room</a> - <a href="https://conversejs.org/" trget="_blank">ConverseJS.org</a></p> ', 'conversejs'); ?>
 
 	<form method="post" action="options.php">
@@ -260,10 +264,11 @@ private $default 	= array(
         	<tr valign="top">
         		<th scope="row"><?php _e("Visible Buttons", 'conversejs'); ?></th>
         		<td>
-				<label for="call"><?php _e("Enable Call Button", 'conversejs'); ?> <input type="checkbox" id="call" name="call" value="true" <?php checked('true', get_option('call')); ?> /></label><br />
-				<label for="clear"><?php _e("Enable Clear Button", 'conversejs'); ?> <input type="checkbox" id="clear" name="clear" value="true" <?php checked('true', get_option('clear')); ?> /></label><br />
-				<label fro="emoticons"><?php _e("Enable Emoticons", 'conversejs'); ?> <input type="checkbox" id="emoticons" name="emoticons" value="true" <?php checked('true', get_option('emoticons')); ?> /></label><br />
-				<label for="toggle_participants"><?php _e("Enable toggle participants Button", 'conversejs'); ?> <input type="checkbox" name="toggle_participants" id="toggle_participants" value="true" <?php checked('true', get_option('toggle_participants')); ?> /></label></td>
+				<p><label for="call"><?php _e("Enable Call Button", 'conversejs'); ?> <input type="checkbox" id="call" name="call" value="true" <?php checked('true', get_option('call')); ?> /></label></p>
+				<p><label for="clear"><?php _e("Enable Clear Button", 'conversejs'); ?> <input type="checkbox" id="clear" name="clear" value="true" <?php checked('true', get_option('clear')); ?> /></label></p>
+				<p><label fro="emoticons"><?php _e("Enable Emoticons", 'conversejs'); ?> <input type="checkbox" id="emoticons" name="emoticons" value="true" <?php checked('true', get_option('emoticons')); ?> /></label></p>
+				<p><label for="toggle_participants"><?php _e("Enable toggle participants Button", 'conversejs'); ?> <input type="checkbox" name="toggle_participants" id="toggle_participants" value="true" <?php checked('true', get_option('toggle_participants')); ?> /></label></p>
+			</td>
         	</tr>
 
         	<tr valign="top">
@@ -279,9 +284,12 @@ private $default 	= array(
         	<tr valign="top">
         		<th scope="row"><?php _e("Functions", 'conversejs'); ?></th>
         		<td>
-				<label for="carbons"><?php _e("Enable Messages Carbons", 'conversejs'); ?> <input type="checkbox" name="carbons" id="carbons" value="true" <?php checked('true', get_option('carbons')); ?> /></label><br />
-				<label for="foward"><?php _e("Enable Foward Messages", 'conversejs'); ?> <input type="checkbox" name="foward" id="foward" value="true" <?php checked('true', get_option('foward')); ?> /></label><br />
-				<label for="hide_muc_server"><?php _e("Hide MUC Server", 'conversejs'); ?>  <input type="checkbox" name="hide_muc_server" id="hide_muc_server" value="true" <?php checked('true', get_option('hide_muc_server')); ?> /></label></td>
+				<p><label for="carbons"><?php _e("Enable Messages Carbons", 'conversejs'); ?> <input type="checkbox" name="carbons" id="carbons" value="true" <?php checked('true', get_option('carbons')); ?> /></label></p>
+				<p><label for="foward"><?php _e("Enable Foward Messages", 'conversejs'); ?> <input type="checkbox" name="foward" id="foward" value="true" <?php checked('true', get_option('foward')); ?> /></label></p>
+				<p><label for="hide_muc_server"><?php _e("Hide MUC Server", 'conversejs'); ?>  <input type="checkbox" name="hide_muc_server" id="hide_muc_server" value="true" <?php checked('true', get_option('hide_muc_server')); ?> /></label></p>
+				<p><label for="allow_otr"><?php _e("Enable OTR", 'conversejs'); ?>  <input type="checkbox" name="allow_otr" id="allow_otr" aria-describedby="allow_otr-description" value="true" <?php checked('true', get_option('allow_otr')); ?> /></label></p>
+				<p class="description" id="allow_otr-description"><?php _e("Enable OTR for more security chat conversations", 'conversejs'); ?></p>
+			</td>
         	</tr>
 
         	<tr valign="top">

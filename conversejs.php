@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) exit;
 Plugin Name: ConverseJS
 Plugin URI: https://conversejs.org/
 Description: This plugin add the javascript code for Converse.js a Jabber/XMPP chat for your WordPress.
-Version: 2.4.7
+Version: 2.4.8
 Author: camaran
 Author URI: http://www.chatme.im
 Text Domain: conversejs
@@ -104,9 +104,9 @@ private $default 	= array(
 				wp_register_script( 'ConverseJS', plugins_url( '/core/converse.min.js', __FILE__ ), array(), $this->default['conver'], false );
 				wp_enqueue_script( 'ConverseJS' );
 			case 1:
-				wp_register_style( 'ConverseJScdn', 'https://cdn.chatme.im/chat/conversejs/css/converse.min.css', array(), $this->default['conver'] );
+				wp_register_style( 'ConverseJScdn', 'https://cdn.chatme.im/chat/conversejs/css/converse.min.css', array(), 'cdn' );
 				wp_enqueue_style( 'ConverseJScdn' );
-				wp_register_script( 'ConverseJScdn', 'https://cdn.chatme.im/chat/conversejs/converse.min.js', array(), $this->default['conver'], false );
+				wp_register_script( 'ConverseJScdn', 'https://cdn.chatme.im/chat/conversejs/converse.min.js', array(), 'cdn', false );
 				wp_enqueue_script( 'ConverseJScdn' );
 		}
 	}

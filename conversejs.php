@@ -42,6 +42,7 @@ private $default 	= array(
 				'plugin_options_key'		=> 'converseJS',
 				'roster_groups'			=> 'false',
 				'allow_otr'			=> 'false',
+				'cdn'				=> 1,
 				);
 
 	function __construct() {
@@ -96,12 +97,19 @@ private $default 	= array(
       	      	}
 
 	function get_converse_head() {
-	
-		wp_register_style( 'ConverseJS', plugins_url( '/core/css/converse.min.css', __FILE__ ), array(), $this->default['conver'] );
-		wp_enqueue_style( 'ConverseJS' );
-		wp_register_script( 'ConverseJS', plugins_url( '/core/converse.min.js', __FILE__ ), array(), $this->default['conver'], false );
-		wp_enqueue_script( 'ConverseJS' );
+		switch ($this->default['cdn']) {
+			case 0:
+				wp_register_style( 'ConverseJS', plugins_url( '/core/css/converse.min.css', __FILE__ ), array(), $this->default['conver'] );
+				wp_enqueue_style( 'ConverseJS' );
+				wp_register_script( 'ConverseJS', plugins_url( '/core/converse.min.js', __FILE__ ), array(), $this->default['conver'], false );
+				wp_enqueue_script( 'ConverseJS' );
+			case 1:
+				wp_register_style( 'ConverseJScdn', 'https://cdn.chatme.im/chat/conversejs/css/converse.min.css', array(), $this->default['conver'] );
+				wp_enqueue_style( 'ConverseJScdn' );
+				wp_register_script( 'ConverseJScdn', 'https://cdn.chatme.im/chat/conversejs/converse.min.js', array(), $this->default['conver'], false );
+				wp_enqueue_script( 'ConverseJScdn' );
 		}
+	}
 
 	function get_converse_footer() {
 		
@@ -134,8 +142,7 @@ private $default 	= array(
 				unset( $setting[$k]);
 						
 		$actual = apply_filters( 'converse_actual', wp_parse_args( $setting, $this->default ) );
-		//$actual = wp_parse_args( $setting, $this->default );							
-		
+								
 		$converse_html = printf( '
 		
 		<!-- Messenger -->
